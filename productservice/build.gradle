@@ -19,10 +19,22 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'net.logstash.logback:logstash-logback-encoder:8.0'
+	implementation 'ch.qos.logback:logback-core:1.5.10'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'ch.qos.logback:logback-classic:1.5.10'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+bootJar {
+	manifest {
+		attributes 'Main-Class': 'com.onlineshop.productservice.ProductServiceApplication'
+	}
+	archiveFileName = 'productservice.jar'
 }

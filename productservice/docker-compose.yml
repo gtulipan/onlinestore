@@ -1,11 +1,24 @@
 services:
   product_service:
+    image: product-service
     build:
       context: .
+      args:
+        LOG_FOLDER: ${LOG_FOLDER}
+        PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+    env_file:
+        - .env
     environment:
       PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+      LOG_FOLDER: ${LOG_FOLDER}
     ports:
       - ${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}
     container_name: product_service
     networks:
-      - online_store_network
+      - online-store-network
+
+networks:
+  online-store-network:
+    name: online-store-network
+    driver: bridge
+    attachable: true
