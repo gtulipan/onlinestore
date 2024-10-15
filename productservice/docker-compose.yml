@@ -1,0 +1,11 @@
+services:
+  product_service:
+    build:
+      context: .
+    environment:
+      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+    ports:
+      - ${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}
+    container_name: product_service
+    networks:
+      - online_store_network
