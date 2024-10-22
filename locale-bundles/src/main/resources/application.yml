@@ -1,14 +1,11 @@
 spring:
   application:
-    name: productservice
+    name: locale-bundles
   config:
     import: optional:file:/.env[.properties]
-  webflux:
-    problemdetails:
-      enabled: true
 
 server:
-  port: ${PRODUCT_SERVICE_PORT}
+  port: ${LOCAL_BUNDLES_SERVICE_PORT}
 
 springdoc:
   swagger-ui:

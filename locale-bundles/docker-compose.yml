@@ -1,0 +1,23 @@
+services:
+  locale-bundles:
+    build:
+      context: .
+      args:
+        LOG_FOLDER: ${LOG_FOLDER}
+        LOCAL_BUNDLES_SERVICE_PORT: ${LOCAL_BUNDLES_SERVICE_PORT}
+    env_file:
+      - .env
+    environment:
+      - LOCAL_BUNDLES_SERVICE_PORT=${LOCAL_BUNDLES_SERVICE_PORT}
+      - LOG_FOLDER=${LOG_FOLDER}
+    ports:
+      - "${LOCAL_BUNDLES_SERVICE_PORT}:${LOCAL_BUNDLES_SERVICE_PORT}"
+    container_name: locale-bundles
+    networks:
+      - online-store-network
+
+networks:
+  online-store-network:
+    name: online-store-network
+    driver: bridge
+    attachable: true

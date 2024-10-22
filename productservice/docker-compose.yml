@@ -1,6 +1,6 @@
 services:
-  product_service:
-    image: product-service
+  productservice:
+    image: productservice
     build:
       context: .
       args:
@@ -13,7 +13,7 @@ services:
       LOG_FOLDER: ${LOG_FOLDER}
     ports:
       - ${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}
-    container_name: product_service
+    container_name: productservice
     networks:
       - online-store-network
 
