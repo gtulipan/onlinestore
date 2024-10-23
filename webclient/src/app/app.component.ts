@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
     <button (click)="changeLanguage('hu')">Magyar</button>
   `,
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet, TranslateModule]
 })
 export class AppComponent {
   title = 'webclient';

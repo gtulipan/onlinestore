@@ -1,9 +1,29 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideRouter, Routes } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, '/api/v1/messages?lang=', '');
+}
+
+const routes: Routes = [
+  { path: '', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
+  { path: 'about', loadComponent: () => import('./about/about.component').then(m => m.AboutComponent) }
+];
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration()]
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    importProvidersFrom(TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })),
+    provideRouter(routes)
+  ]
 };
