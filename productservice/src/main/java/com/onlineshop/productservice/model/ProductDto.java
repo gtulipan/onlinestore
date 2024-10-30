@@ -25,6 +25,9 @@ public class ProductDto {
     @Positive
     private double price;
 
+    @NotBlank
+    private String description;
+
     private OffsetDateTime createdDate;
     private OffsetDateTime lastModifiedDate;
 }

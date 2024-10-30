@@ -1,6 +1,8 @@
 package com.onlineshop.productservice.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,9 +22,12 @@ public class Product {
     private Long id;
 
     @Column
+    @NonNull
+    @Size(max = 255)
     private String name;
 
     @Column
+    @Positive
     private double price;
 
     @CreationTimestamp
@@ -31,6 +36,10 @@ public class Product {
 
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
+
+    @Column
+    @Size(max = 1024)
+    private String description;
 
     @Version
     private Integer version;
