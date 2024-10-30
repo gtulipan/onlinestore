@@ -6,13 +6,27 @@ spring:
   webflux:
     problemdetails:
       enabled: true
+  datasource:
+    url: jdbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}?currentSchema=${DB_POSTGRESQL_DATABASE_SCHEMA}
+    username: ${DB_POSTGRESQL_USER}
+    password: ${DB_POSTGRESQL_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yaml
+    contexts: test
+    drop-first: true
 
 server:
-  port: ${PRODUCT_SERVICE_PORT}
+  port: ${PRODUCT_SERVICE_PORT:8080}
 
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+#http://localhost:8888/spring-boot-config/default, http://localhost:8080/actuator/configprops, a port a sajátja legyen!
+#A http://localhost:8080/actuator/health vagy info linken a get kérés megmutatja az aktuális állapotot.
+#Lehetőség van arra is, hogy manuálisan idítsunk egy properties frissítést. Ehhez a http://localhost:8080/actuator/refresh linkre kell post kérést küldeni (post/get oldalon állítható), ha a konfig kliens ezen a porton fut
+management.endpoints.web.exposure.include: "*"
 
 logging:
   level:

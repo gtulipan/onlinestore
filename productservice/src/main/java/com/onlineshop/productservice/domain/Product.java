@@ -33,5 +33,5 @@ public class Product {
     private Timestamp lastModifiedDate;
 
     @Version
-    private Long version;
+    private Integer version;
 }

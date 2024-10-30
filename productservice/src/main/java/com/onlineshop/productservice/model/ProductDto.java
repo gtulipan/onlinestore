@@ -26,5 +26,5 @@ public class ProductDto {
     private double price;
 
     private OffsetDateTime createdDate;
-    private OffsetDateTime lastUpdatedDate;
+    private OffsetDateTime lastModifiedDate;
 }

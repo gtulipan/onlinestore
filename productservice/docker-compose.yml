@@ -11,9 +11,30 @@ services:
     environment:
       PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
       LOG_FOLDER: ${LOG_FOLDER}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_POSTGRESQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_POSTGRESQL_PASSWORD}
+      SPRING_LIQUIBASE_CHANGELOG: classpath:db/changelog/changelog-master.yaml
+    depends_on:
+      - postgres
     ports:
       - ${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}
     container_name: productservice
+    networks:
+      - online-store-network
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-productservice
+    environment:
+      POSTGRES_DB: ${DB_POSTGRESQL_DATABASE_NAME}
+      POSTGRES_USER: ${DB_POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${DB_POSTGRESQL_PASSWORD}
+    ports:
+      - ${DB_POSTGRESQL_PORT_EXTERNAL}:${DB_POSTGRESQL_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
     networks:
       - online-store-network
 
@@ -22,3 +43,6 @@ networks:
     name: online-store-network
     driver: bridge
     attachable: true
+
+volumes:
+  postgres_data:

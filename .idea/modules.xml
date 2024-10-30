@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/locale-bundles.test.iml" filepath="$PROJECT_DIR$/.idea/modules/locale-bundles.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/onlinestore.iml" filepath="$PROJECT_DIR$/.idea/onlinestore.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/productservice.main.iml" filepath="$PROJECT_DIR$/.idea/modules/productservice.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/productservice.test.iml" filepath="$PROJECT_DIR$/.idea/modules/productservice.test.iml" />
     </modules>
   </component>
 </project>
