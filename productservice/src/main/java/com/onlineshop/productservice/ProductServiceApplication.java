@@ -3,7 +3,7 @@ package com.onlineshop.productservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "ccom.onlineshop.productservice")
 public class ProductServiceApplication {
 
 	public static void main(String[] args) {

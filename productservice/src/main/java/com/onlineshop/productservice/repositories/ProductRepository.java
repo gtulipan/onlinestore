@@ -2,6 +2,8 @@ package com.onlineshop.productservice.repositories;
 
 import com.onlineshop.productservice.domain.Product;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProductRepository  extends ReactiveCrudRepository<Product, Long> {
+@Repository
+public interface ProductRepository extends ReactiveCrudRepository<Product, Long> {
 }

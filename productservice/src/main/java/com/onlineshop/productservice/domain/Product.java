@@ -21,9 +21,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NonNull
-    @Size(max = 255)
+    @Column(unique = true)
+    @Size(min = 1, max = 255)
     private String name;
 
     @Column

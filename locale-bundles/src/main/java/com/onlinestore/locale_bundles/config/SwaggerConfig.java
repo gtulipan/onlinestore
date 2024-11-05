@@ -1,4 +1,4 @@
-package com.onlineshop.productservice.config;
+package com.onlinestore.locale_bundles.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -17,4 +17,3 @@ public class SwaggerConfig {
                         .description("API documentation for the application"));
     }
 }
-

@@ -6,11 +6,18 @@ spring:
   webflux:
     problemdetails:
       enabled: true
-  datasource:
-    url: jdbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}?currentSchema=${DB_POSTGRESQL_DATABASE_SCHEMA}
-    username: ${DB_POSTGRESQL_USER}
+  r2dbc:
+    host: ${DB_POSTGRESQL_HOST:localhost}
+    port: ${DB_POSTGRESQL_PORT:5432}
+    database: ${DB_POSTGRESQL_DATABASE_NAME:products}
+    url: r2dbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME} #?currentSchema=${DB_POSTGRESQL_DATABASE_SCHEMA}
+    username: ${DB_POSTGRESQL_USER:postgres}
     password: ${DB_POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
   liquibase:
     change-log: classpath:db/changelog/changelog-master.yaml
     contexts: test

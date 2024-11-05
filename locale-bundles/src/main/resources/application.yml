@@ -5,7 +5,7 @@ spring:
     import: optional:file:/.env[.properties]
 
 server:
-  port: ${LOCAL_BUNDLES_SERVICE_PORT}
+  port: ${LOCAL_BUNDLES_SERVICE_PORT:8086}
 
 springdoc:
   swagger-ui:
