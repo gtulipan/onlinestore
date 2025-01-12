@@ -10,6 +10,7 @@ services:
       - ${DB_POSTGRESQL_PORT_EXTERNAL}:${DB_POSTGRESQL_PORT}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     restart: unless-stopped
     networks:
       - online-store-network
@@ -24,14 +25,14 @@ services:
     env_file:
       - .env
     environment:
-      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
-      LOG_FOLDER: ${LOG_FOLDER}
-      #SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
-      SPRING_DATASOURCE_URL: r2dbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
-      SPRING_DATASOURCE_DRIVER-CLASS-NAME: io.r2dbc.postgresql.PostgresqlConnectionFactory
-      SPRING_DATASOURCE_USERNAME: ${DB_POSTGRESQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_POSTGRESQL_PASSWORD}
-      SPRING_LIQUIBASE_CHANGELOG: classpath:db/changelog/changelog-master.yaml
+      - PRODUCT_SERVICE_PORT=${PRODUCT_SERVICE_PORT}
+      - LOG_FOLDER=${LOG_FOLDER}
+      #- SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+      - SPRING_DATASOURCE_URL=r2dbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=io.r2dbc.postgresql.PostgresqlConnectionFactory
+      - SPRING_DATASOURCE_USERNAME=${DB_POSTGRESQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_POSTGRESQL_PASSWORD}
+      - SPRING_LIQUIBASE_CHANGELOG=classpath:db/changelog/changelog-master.yaml
     depends_on:
       - postgres
     ports:

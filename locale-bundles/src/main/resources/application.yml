@@ -1,8 +1,10 @@
 spring:
   application:
     name: locale-bundles
-  config:
-    import: optional:file:/.env[.properties]
+#  config:
+#    import: "classpath:.env[.properties]"
+#    import: "classpath:/application.yml,classpath:/application-test.yml,classpath:/.env[.properties]"
+#    import: file:./.env[.properties]
 
 server:
   port: ${LOCAL_BUNDLES_SERVICE_PORT:8086}

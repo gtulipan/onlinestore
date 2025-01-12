@@ -23,17 +23,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.5'
     implementation 'net.logstash.logback:logstash-logback-encoder:8.0'
-    implementation 'ch.qos.logback:logback-core:1.5.10'
+    implementation 'ch.qos.logback:logback-core:1.5.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
     implementation 'io.swagger.core.v3:swagger-annotations:2.2.25'
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
 
-    // Exclude old Spring core version
-    implementation ('org.springframework:spring-core:6.0.12') {
-        exclude group: 'org.springframework', module: 'spring-core'
-    }
+//    // Exclude old Spring core version
+//    implementation ('org.springframework:spring-core:6.0.12') {
+//        exclude group: 'org.springframework', module: 'spring-core'
+//    }
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

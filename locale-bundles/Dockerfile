@@ -19,6 +19,10 @@ FROM openjdk:21-jdk
 # Set the working directory
 WORKDIR /app
 
+
+# Copy the .env file
+COPY .env .env
+
 # Copy the application JAR file
 COPY build/libs/locale_bundles.jar app.jar
 

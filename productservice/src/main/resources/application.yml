@@ -1,23 +1,23 @@
 spring:
   application:
     name: productservice
-  config:
-    import: optional:file:/.env[.properties]
+#  config:
+#    import: file:./.env[.properties]
   webflux:
     problemdetails:
       enabled: true
-  r2dbc:
-    host: ${DB_POSTGRESQL_HOST:localhost}
-    port: ${DB_POSTGRESQL_PORT:5432}
-    database: ${DB_POSTGRESQL_DATABASE_NAME:products}
-    url: r2dbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME} #?currentSchema=${DB_POSTGRESQL_DATABASE_SCHEMA}
-    username: ${DB_POSTGRESQL_USER:postgres}
+  datasource:
+    url: r2dbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
+    username: ${DB_POSTGRESQL_USER}
     password: ${DB_POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     change-log: classpath:db/changelog/changelog-master.yaml
     contexts: test

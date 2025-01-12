@@ -4,6 +4,9 @@ FROM openjdk:21-jdk
 # Set the working directory
 WORKDIR /app
 
+# Copy the .env file
+COPY .env .env
+
 # Add the application JAR file ## productservice-0.0.1-SNAPSHOT-plain.jar
 COPY build/libs/productservice.jar productservice.jar
 

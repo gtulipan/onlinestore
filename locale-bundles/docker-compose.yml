@@ -1,12 +1,12 @@
 services:
   locale-bundles:
+    env_file:
+      - .env
     build:
       context: .
       args:
         LOG_FOLDER: ${LOG_FOLDER}
         LOCAL_BUNDLES_SERVICE_PORT: ${LOCAL_BUNDLES_SERVICE_PORT}
-    env_file:
-      - .env
     environment:
       - LOCAL_BUNDLES_SERVICE_PORT=${LOCAL_BUNDLES_SERVICE_PORT}
       - LOG_FOLDER=${LOG_FOLDER}
