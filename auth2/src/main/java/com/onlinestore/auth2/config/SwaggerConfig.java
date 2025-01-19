@@ -1,4 +1,4 @@
-package com.onlineshop.productservice.config;
+package com.onlinestore.auth2.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -15,8 +15,8 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .components(new Components())
                 .info(new Info()
-                        .title("Auth2 service API")
-                        .description("API documentation for the auth2service application")
+                        .title("Product service API")
+                        .description("API documentation for the productservice application")
                         .version("1.0.0")
                         .termsOfService("http://example.com/terms")
                         .contact(new Contact()

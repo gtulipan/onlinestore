@@ -30,4 +30,5 @@ public class ProductDto {
 
     private OffsetDateTime createdDate;
     private OffsetDateTime lastModifiedDate;
+    private Integer version;
 }

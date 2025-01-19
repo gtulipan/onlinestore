@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres-productservice
+    container_name: postgres-auth2service
     environment:
       POSTGRES_DB: ${DB_POSTGRESQL_DATABASE_NAME}
       POSTGRES_USER: ${DB_POSTGRESQL_USER}
@@ -13,19 +13,19 @@ services:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     restart: unless-stopped
     networks:
-      - online-store-product-network
+      - online-store-auth2-network
 
   productservice:
-    image: productservice
+    image: auth2service
     build:
       context: .
       args:
         LOG_FOLDER: ${LOG_FOLDER}
-        PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+        PRODUCT_SERVICE_PORT: ${AUTH2_SERVICE_PORT}
     env_file:
       - .env
     environment:
-      - PRODUCT_SERVICE_PORT=${PRODUCT_SERVICE_PORT}
+      - AUTH2_SERVICE_PORT=${AUTH2_SERVICE_PORT}
       - LOG_FOLDER=${LOG_FOLDER}
       #- SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
       - SPRING_DATASOURCE_URL=r2dbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
@@ -37,13 +37,13 @@ services:
       - postgres
     ports:
       - ${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}
-    container_name: productservice
+    container_name: auth2service
     networks:
-      - online-store-product-network
+      - online-store-auth2-network
 
 networks:
-  online-store-product-network:
-    name: online-store-product-network
+  online-store-auth2-network:
+    name: online-store-auth2-network
     driver: bridge
     attachable: true
 

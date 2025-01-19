@@ -1,15 +1,15 @@
-package com.onlineshop.productservice;
+package com.onlinestore.auth2;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.onlineshop.productservice")
-public class ProductServiceApplication {
+@SpringBootApplication
+public class Auth2Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductServiceApplication.class, args);
+		SpringApplication.run(Auth2Application.class, args);
 	}
 
 	@PostConstruct
