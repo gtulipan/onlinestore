@@ -28,6 +28,9 @@ public class CustomerDto {
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
 
+    @Size(min = 1, max = 255)
+    private String password;
+
     @Size(min = 9, max = 25)
     @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
     private String phoneNumber;

@@ -1,14 +1,10 @@
-package com.onlineshop.productservice.exception;
+package com.onlineshop.productservice.advice;
 
-import jakarta.validation.ConstraintViolationException;
+import com.onlineshop.productservice.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.ProblemDetail;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ControllerAdvice
 public class ProductServiceExceptionHandler {

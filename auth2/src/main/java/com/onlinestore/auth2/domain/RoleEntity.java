@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "role")
-public class RoleEntity {
+public class RoleEntity implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -42,4 +43,9 @@ public class RoleEntity {
 //    @ManyToOne(fetch = FetchType.LAZY) R2dbc-ben nincs many-to-one és társai :( Utánna kell nézni. megírni
 //    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
+
+    @Override
+    public String getAuthority() {
+        return roleName;
+    }
 }

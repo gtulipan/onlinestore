@@ -2,6 +2,7 @@ package com.onlinestore.auth2.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -30,9 +31,15 @@ public class Customer {
     private String name;
 
     @Size(min = 5, max = 50)
-    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE)
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Please enter a valid email!")
+    @NotNull(message = "Email cannot be NULL")
     @Column(name = "email", nullable = false)
     private String email;
+
+    @NotNull(message = "Password cannot be NULL")
+    @Column(name = "password", nullable = false)
+    @Size(min = 1, max = 255)
+    private String password;
 
     @Size(min = 9, max = 25)
     @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")

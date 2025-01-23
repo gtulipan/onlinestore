@@ -22,17 +22,27 @@ spring:
       change-log: classpath:db/changelog/changelog-master.yaml
       contexts: test
       drop-first: true
+  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://my-auth-server.com
+    keyFile: jwtonlinestore.jks
+    password: jwt680305
+    alias: jwtonlinestore
+    providerUrl: http://localhost:8083
+    token-timeout: ${TOKEN_VALIDITY_TIMEOUT:30L}
 
   server:
-    port: ${AUTH2_SERVICE_PORT:8080}
+    port: ${AUTH2_SERVICE_PORT:8083}
 
   springdoc:
     swagger-ui:
       path: /swagger-ui.html
 
-  #http://localhost:8888/spring-boot-config/default, http://localhost:8080/actuator/configprops, a port a sajátja legyen!
-  #A http://localhost:8080/actuator/health vagy info linken a get kérés megmutatja az aktuális állapotot.
-  #Lehet?ség van arra is, hogy manuálisan idítsunk egy properties frissítést. Ehhez a http://localhost:8080/actuator/refresh linkre kell post kérést küldeni (post/get oldalon állítható), ha a konfig kliens ezen a porton fut
+  #http://localhost:8888/spring-boot-config/default, http://localhost:8080/actuator/configprops, a port a sajï¿½tja legyen!
+  #A http://localhost:8080/actuator/health vagy info linken a get kï¿½rï¿½s megmutatja az aktuï¿½lis ï¿½llapotot.
+  #Lehet?sï¿½g van arra is, hogy manuï¿½lisan idï¿½tsunk egy properties frissï¿½tï¿½st. Ehhez a http://localhost:8080/actuator/refresh linkre kell post kï¿½rï¿½st kï¿½ldeni (post/get oldalon ï¿½llï¿½thatï¿½), ha a konfig kliens ezen a porton fut
   management.endpoints.web.exposure.include: "*"
 
   logging:
@@ -40,3 +50,5 @@ spring:
       root: ${LOGGING_LEVEL_ROOT:DEBUG}
     file:
       path: ${LOG_FOLDER:/tmp}
+
+

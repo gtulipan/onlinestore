@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 @Configuration
-@EnableR2dbcRepositories(basePackages = "com.onlineshop.auth2.repositories")
+@EnableR2dbcRepositories(basePackages = "com.onlinestore.auth2.repositories")
 public class R2DBCConfig {
 
     @Value("${spring.r2dbc.host}")
