@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebFluxSecurity
+//@EnableWebFluxSecurity
 public class AuthorizationServerConfig {
 
     private final UserDetailsService userDetailsService;

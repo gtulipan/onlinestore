@@ -7,7 +7,7 @@ spring:
 #    import: file:./.env[.properties]
 
 server:
-  port: ${LOCAL_BUNDLES_SERVICE_PORT:8086}
+  port: ${LOCAL_BUNDLES_SERVICE_PORT:8085}
 
 springdoc:
   swagger-ui:
@@ -16,7 +16,7 @@ springdoc:
 #http://localhost:8888/spring-boot-config/default, http://localhost:8080/actuator/configprops, a port a sajátja legyen!
 #A http://localhost:8080/actuator/health vagy info linken a get kérés megmutatja az aktuális állapotot.
 #Lehetőség van arra is, hogy manuálisan idítsunk egy properties frissítést. Ehhez a http://localhost:8080/actuator/refresh linkre kell post kérést küldeni (post/get oldalon állítható), ha a konfig kliens ezen a porton fut
-management.endpoints.web.exposure.include: "*"
+#management.endpoints.web.exposure.include: "*"
 
 logging:
   level:

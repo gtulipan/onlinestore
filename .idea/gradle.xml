@@ -4,7 +4,9 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/auth2" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../gradle/gradle-8.11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/auth2" />
