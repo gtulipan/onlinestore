@@ -10,13 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 class ProductServiceApplicationUnitTests {
 
-//	@Test
-	void contextLoads() {
-//		System.out.println(System.getenv("DB_POSTGRESQL_HOST"));
-//		System.out.println(System.getenv("DB_POSTGRESQL_PORT"));
-//		System.out.println(System.getenv("DB_POSTGRESQL_DATABASE_NAME"));
-//		System.out.println(System.getenv("DB_POSTGRESQL_USER"));
-//		System.out.println(System.getenv("DB_POSTGRESQL_PASSWORD"));
-//		System.out.println(System.getenv("DB_POSTGRESQL_DATABASE_SCHEMA"));
-	}
+	@Test
+	void contextLoads() {}
 }

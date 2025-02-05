@@ -6,10 +6,8 @@ import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 @Configuration
-@EnableR2dbcRepositories(basePackages = "com.onlineshop.productservice.repositories")
 public class R2DBCConfig {
 
     @Value("${spring.r2dbc.host}")

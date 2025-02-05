@@ -5,22 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9e7a25e-63c5-4f6a-bda7-f91db5ccc613" name="Changes" comment="Auth2 module - looking for road to create authorization server with token">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/auth2.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/auth2.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/locale-bundles.main.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth2/src/main/java/com/onlinestore/auth2/config/AuthorizationServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth2/src/main/java/com/onlinestore/auth2/config/AuthorizationServerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/LocaleBundlesApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/LocaleBundlesApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/config/InternationalizationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/config/InternationalizationConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/config/SwaggerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/controller/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/java/com/onlinestore/locale_bundles/controller/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/resources/i18n/messages_en.json" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/resources/i18n/messages_en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/resources/i18n/messages_hu.json" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/resources/i18n/messages_hu.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/main/resources/original-logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale-bundles/src/test/java/com/onlinestore/locale_bundles/LocaleBundlesApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/locale-bundles/src/test/java/com/onlinestore/locale_bundles/LocaleBundlesApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productservice/.env" beforeDir="false" afterPath="$PROJECT_DIR$/productservice/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productservice/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/productservice/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productservice/src/main/java/com/onlineshop/productservice/ProductServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/productservice/src/main/java/com/onlineshop/productservice/ProductServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productservice/src/main/java/com/onlineshop/productservice/config/R2DBCConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/productservice/src/main/java/com/onlineshop/productservice/config/R2DBCConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productservice/src/main/java/com/onlineshop/productservice/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/productservice/src/main/java/com/onlineshop/productservice/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productservice/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/productservice/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productservice/src/test/java/unit/com/onlineshop/productservice/ProductServiceApplicationUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/productservice/src/test/java/unit/com/onlineshop/productservice/ProductServiceApplicationUnitTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +37,9 @@
     <system id="GRADLE">
       <state>
         <task path="$PROJECT_DIR$/locale-bundles">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/productservice">
           <activation />
         </task>
         <projects_view>
@@ -95,38 +93,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Gradle.Auth2ApplicationTests.contextLoads.executor": "Run",
-    "Gradle.Load Gradle Dependencies.executor": "Run",
-    "Gradle.LocaleBundlesApplicationTests.executor": "Run",
-    "Gradle.ProductServiceApplicationUnitTests.contextLoads.executor": "Run",
-    "Gradle.ProductServiceApplicationUnitTests.executor": "Run",
-    "Gradle.auth2 [:Auth2Application.main()].executor": "Run",
-    "Gradle.auth2 [clean build].executor": "Run",
-    "Gradle.locale-bundles [:LocaleBundlesApplication.main()].executor": "Run",
-    "Gradle.locale-bundles [build].executor": "Run",
-    "Gradle.locale-bundles [clean build].executor": "Run",
-    "Gradle.locale-bundles [clean].executor": "Run",
-    "Gradle.productservice [:ProductServiceApplication.main()].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/DEV_TOOLS/intelliJ_workspace/onlinestore/locale-bundles",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Lombok Config",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.Auth2ApplicationTests.contextLoads.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Load Gradle Dependencies.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LocaleBundlesApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ProductServiceApplicationUnitTests.contextLoads.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ProductServiceApplicationUnitTests.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth2 [:Auth2Application.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.auth2 [clean build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.locale-bundles [:LocaleBundlesApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.locale-bundles [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.locale-bundles [clean build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.locale-bundles [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.productservice [:ProductServiceApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/DEV_TOOLS/intelliJ_workspace/onlinestore/productservice&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Lombok Config&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources" />
@@ -149,18 +147,25 @@
       <command value="gradle clean build --refresh-dependencies" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.LocaleBundlesApplication">
-    <configuration name="LocaleBundlesApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Gradle.ProductServiceApplicationUnitTests">
+    <configuration name="ProductServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
-        <env name="LOCAL_BUNDLES_SERVICE_PORT" value="8086" />
-        <env name="LOG_FOLDER" value="/logs/locale-bundles" />
-        <env name="LOGGING_LEVEL_ROOT" value="error" />
+        <env name="DB_POSTGRESQL_DATABASE_NAME" value="products" />
+        <env name="DB_POSTGRESQL_DATABASE_SCHEMA" value="public" />
+        <env name="DB_POSTGRESQL_HOST" value="127.0.0.1" />
+        <env name="DB_POSTGRESQL_PASSWORD" value="postgres" />
+        <env name="DB_POSTGRESQL_PORT" value="5432" />
+        <env name="DB_POSTGRESQL_PORT_EXTERNAL" value="5432" />
+        <env name="DB_POSTGRESQL_USER" value="postgres" />
+        <env name="LOG_FOLDER" value="/logs/productservice" />
+        <env name="LOGGING_LEVEL_ROOT" value="DEBUG" />
+        <env name="PRODUCT_SERVICE_PORT" value="8080" />
       </envs>
-      <option name="MAIN_CLASS_NAME" value="com.onlinestore.locale_bundles.LocaleBundlesApplication" />
-      <module name="locale-bundles.main" />
+      <option name="MAIN_CLASS_NAME" value="com.onlineshop.productservice.ProductServiceApplication" />
+      <module name="productservice.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.onlinestore.locale_bundles.*" />
+          <option name="PATTERN" value="com.onlineshop.productservice.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -192,49 +197,66 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="auth2 [clean build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ProductServiceApplicationUnitTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
+        <option name="env">
+          <map>
+            <entry key="DB_POSTGRESQL_DATABASE_NAME" value="products" />
+            <entry key="DB_POSTGRESQL_DATABASE_SCHEMA" value="public" />
+            <entry key="DB_POSTGRESQL_HOST" value="127.0.0.1" />
+            <entry key="DB_POSTGRESQL_PASSWORD" value="postgres" />
+            <entry key="DB_POSTGRESQL_PORT" value="5432" />
+            <entry key="DB_POSTGRESQL_PORT_EXTERNAL" value="5432" />
+            <entry key="DB_POSTGRESQL_USER" value="postgres" />
+            <entry key="LOGGING_LEVEL_ROOT" value="DEBUG" />
+            <entry key="LOG_FOLDER" value="/logs/productservice" />
+            <entry key="PRODUCT_SERVICE_PORT" value="8080" />
+          </map>
+        </option>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/auth2" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/productservice" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="--refresh-dependencies" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
-            <option value="build" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.onlineshop.productservice.ProductServiceApplicationUnitTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="locale-bundles [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ProductServiceApplicationUnitTests.contextLoads" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/locale-bundles" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/productservice" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="build" />
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.onlineshop.productservice.ProductServiceApplicationUnitTests.contextLoads&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="locale-bundles [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -267,19 +289,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.LocaleBundlesApplication" />
+      <item itemvalue="Application.ProductServiceApplication" />
+      <item itemvalue="Gradle.ProductServiceApplicationUnitTests.contextLoads" />
+      <item itemvalue="Gradle.ProductServiceApplicationUnitTests" />
       <item itemvalue="Gradle.LocaleBundlesApplicationTests" />
-      <item itemvalue="Gradle.locale-bundles [build]" />
-      <item itemvalue="Gradle.auth2 [clean build]" />
       <item itemvalue="Gradle.locale-bundles [clean]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ProductServiceApplicationUnitTests" />
+        <item itemvalue="Gradle.ProductServiceApplicationUnitTests.contextLoads" />
+        <item itemvalue="Application.ProductServiceApplication" />
         <item itemvalue="Gradle.LocaleBundlesApplicationTests" />
         <item itemvalue="Gradle.locale-bundles [clean]" />
-        <item itemvalue="Gradle.locale-bundles [build]" />
-        <item itemvalue="Gradle.auth2 [clean build]" />
-        <item itemvalue="Application.LocaleBundlesApplication" />
       </list>
     </recent_temporary>
   </component>

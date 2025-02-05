@@ -22,6 +22,7 @@ import reactor.core.publisher.Mono;
 @OpenAPIDefinition(info = @Info(title = "Product Service", version = "v1"))
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/products")
 @Slf4j
 public class ProductController {
 
@@ -54,6 +55,7 @@ public class ProductController {
                 .switchIfEmpty(Mono.error(new ProductNotFoundException("Product not found")))
                 .log();
     }
+
     @Operation(summary = "Delete product", description = "Deletes a product based on ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully deleted", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))),

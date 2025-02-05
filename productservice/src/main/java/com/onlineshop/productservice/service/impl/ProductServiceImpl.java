@@ -6,8 +6,8 @@ import com.onlineshop.productservice.model.ProductDto;
 import com.onlineshop.productservice.repositories.ProductRepository;
 import com.onlineshop.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,11 +16,14 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-
     private final ProductRepository productRepository;
     private static final ProductMapper productMapper = ProductMapper.INSTANCE;
+
+    public ProductServiceImpl(ProductRepository productRepository){
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Flux<ProductDto> getAllProducts() {
