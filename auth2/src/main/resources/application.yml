@@ -4,24 +4,24 @@ spring:
   webflux:
     problemdetails:
       enabled: true
-    r2dbc:
-      url: r2dbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
-      username: ${DB_POSTGRESQL_USER}
-      password: ${DB_POSTGRESQL_PASSWORD}
-      driver-class-name: org.postgresql.Driver
-      host: ${DB_POSTGRESQL_HOST}
-      port: ${DB_POSTGRESQL_PORT}
-    jpa:
+  r2dbc:
+    url: r2dbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT:5432}/${DB_POSTGRESQL_DATABASE_NAME}
+    username: ${DB_POSTGRESQL_USER}
+    password: ${DB_POSTGRESQL_PASSWORD}
+    database: ${DB_POSTGRESQL_DATABASE_NAME}
+    host: ${DB_POSTGRESQL_HOST}
+    port: ${DB_POSTGRESQL_PORT}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
       hibernate:
-        ddl-auto: update
-      show-sql: true
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
-    liquibase:
-      change-log: classpath:db/changelog/changelog-master.yaml
-      contexts: test
-      drop-first: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yaml
+    contexts: test
+    drop-first: true
   security:
 #    oauth2:
 #      resourceserver:
@@ -31,24 +31,24 @@ spring:
     password: jwt680305
     alias: jwtonlinestore
     providerUrl: http://localhost:8083
-    token-timeout: ${TOKEN_VALIDITY_TIMEOUT:30L}
+    token-timeout: ${TOKEN_VALIDITY_TIMEOUT:30}
 
-  server:
-    port: ${AUTH2_SERVICE_PORT:8083}
+server:
+  port: ${AUTH2_SERVICE_PORT:8083}
 
-  springdoc:
-    swagger-ui:
-      path: /swagger-ui.html
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
 
-  #http://localhost:8888/spring-boot-config/default, http://localhost:8080/actuator/configprops, a port a saj�tja legyen!
-  #A http://localhost:8080/actuator/health vagy info linken a get k�r�s megmutatja az aktu�lis �llapotot.
-  #Lehet?s�g van arra is, hogy manu�lisan id�tsunk egy properties friss�t�st. Ehhez a http://localhost:8080/actuator/refresh linkre kell post k�r�st k�ldeni (post/get oldalon �ll�that�), ha a konfig kliens ezen a porton fut
-  management.endpoints.web.exposure.include: "*"
+#http://localhost:8888/spring-boot-config/default, http://localhost:8080/actuator/configprops, a port a saj�tja legyen!
+#A http://localhost:8080/actuator/health vagy info linken a get k�r�s megmutatja az aktu�lis �llapotot.
+#Lehet?s�g van arra is, hogy manu�lisan id�tsunk egy properties friss�t�st. Ehhez a http://localhost:8080/actuator/refresh linkre kell post k�r�st k�ldeni (post/get oldalon �ll�that�), ha a konfig kliens ezen a porton fut
+management.endpoints.web.exposure.include: "*"
 
-  logging:
-    level:
-      root: ${LOGGING_LEVEL_ROOT:DEBUG}
-    file:
-      path: ${LOG_FOLDER:/tmp}
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:DEBUG}
+  file:
+    path: ${LOG_FOLDER:/tmp}
 
 

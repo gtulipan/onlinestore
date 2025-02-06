@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
@@ -24,6 +26,7 @@ import org.springframework.security.oauth2.server.authorization.settings.TokenSe
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,19 +58,28 @@ public class AuthorizationServerConfig {
     @Value("${spring.security.providerUrl}")
     private String providerUrl;
 
-    @Value("${spring.security.token-timeout")
+    @Value("${spring.security.token-timeout}")
     private String tokenTimeout;
 
     /**
      * <p>Amikor az authorization szerver konfigurációjában beállítjuk az oauth részére a HttpSecurity objektumot,
      * akkor az abban beállított http kérések lesznek beállítva.</p>
      */
+//    @Bean
+//    @Order(Ordered.HIGHEST_PRECEDENCE)
+//    SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
+////        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); //deprecated
+//        http.with(OAuth2AuthorizationServerConfigurer.authorizationServer(), Customizer.withDefaults());
+//        return http.userDetailsService(userDetailsService).formLogin(Customizer.withDefaults()).build();
+//    }
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-//        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); //deprecated
-        http.with(OAuth2AuthorizationServerConfigurer.authorizationServer(), Customizer.withDefaults());
-        return http.userDetailsService(userDetailsService).formLogin(Customizer.withDefaults()).build();
+        http.securityMatcher(new AntPathRequestMatcher("/oauth2/**"))
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+                .formLogin(Customizer.withDefaults());
+        return http.build();
     }
 
     /**
@@ -76,6 +88,11 @@ public class AuthorizationServerConfig {
     @Bean
     JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+
+    @Bean
+    JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+        return new NimbusJwtEncoder(jwkSource);
     }
 
     /**
@@ -89,7 +106,7 @@ public class AuthorizationServerConfig {
     }
 
     /**
-     * <p>A jwk selector fogja visszaadni a jwk set-ből a jwk source-t. Azaz szükséges egy JWKSet kon-figuráció is</p>
+     * <p>A jwk selector fogja visszaadni a jwk set-ből a jwk source-t. Azaz szükséges egy JWKSet konfiguráció is</p>
      */
     private JWKSet buildJWKSet() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
         KeyStore keyStore = KeyStore.getInstance("pkcs12");

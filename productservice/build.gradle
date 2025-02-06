@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.3.4'
+	id 'org.springframework.boot' version '3.4.1'
 	id 'io.spring.dependency-management' version '1.1.6'
 }
 
@@ -54,6 +54,7 @@ dependencies {
 	testImplementation 'ch.qos.logback:logback-classic:1.5.10'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.1.4'
+	testImplementation 'org.springframework.security:spring-security-test:6.4.2'
 }
 
 tasks.withType(JavaCompile) {

@@ -18,6 +18,7 @@ import java.time.Duration;
 public class ClientConfig {
 
     private final PasswordEncoder passwordEncoder;
+    private final TokenSettings tokenSettings;
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
@@ -30,16 +31,16 @@ public class ClientConfig {
                 .redirectUri("http://localhost:8083/login/oauth2/code/custom")
                 .scope("read")
                 .scope("write")
-                .tokenSettings(tokenSettings())
+                .tokenSettings(tokenSettings)
                 .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
 
-    @Bean
-    TokenSettings tokenSettings() {
-        return TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(30l)).build();
-
-    }
+//    @Bean //AuthorizationServerConfig-ben létrehozva :)
+//    TokenSettings tokenSettings() {
+//        return TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(30l)).build();
+//
+//    }
 }
 
