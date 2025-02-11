@@ -36,11 +36,5 @@ public class ClientConfig {
 
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
-
-//    @Bean //AuthorizationServerConfig-ben létrehozva :)
-//    TokenSettings tokenSettings() {
-//        return TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(30l)).build();
-//
-//    }
 }
 

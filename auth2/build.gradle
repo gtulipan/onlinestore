@@ -20,7 +20,6 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
@@ -33,7 +32,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:3.3.5'
 	implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
 
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0'
 	implementation 'io.swagger.core.v3:swagger-annotations:2.2.25'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.5'
 
@@ -48,9 +47,6 @@ dependencies {
 
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.2.Final'
 	implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
-
-//	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
-//	runtimeOnly 'org.postgresql:postgresql'
 
 	runtimeOnly 'org.liquibase:liquibase-core'
 

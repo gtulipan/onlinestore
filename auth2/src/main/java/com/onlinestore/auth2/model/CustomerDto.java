@@ -1,6 +1,5 @@
 package com.onlinestore.auth2.model;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;

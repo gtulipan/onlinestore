@@ -60,7 +60,7 @@ public class Customer {
     @Version
     private Integer version;
 
-    //FIXME! R2dbc-ben nincs many-to-one és társai :( Utánna kell nézni. megírni
+    //FIXME! R2dbc-ben nincs many-to-one és társai
     //@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RoleEntity> roles;
 }

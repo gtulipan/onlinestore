@@ -40,9 +40,12 @@ public class RoleEntity implements GrantedAuthority {
     private int version;
 
 //FIXME:
-//    @ManyToOne(fetch = FetchType.LAZY) R2dbc-ben nincs many-to-one és társai :( Utánna kell nézni. megírni
+//    @ManyToOne(fetch = FetchType.LAZY) R2dbc-ben nincs many-to-one és társai :(
 //    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+//    private Customer customer;
+
+    @Column(name = "customer_id", nullable = false)
+    private UUID customerId;
 
     @Override
     public String getAuthority() {

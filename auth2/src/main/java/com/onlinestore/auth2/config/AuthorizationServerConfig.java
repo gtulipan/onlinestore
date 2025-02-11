@@ -3,19 +3,27 @@ package com.onlinestore.auth2.config;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.onlinestore.auth2.repositories.CustomerRepository;
+import com.onlinestore.auth2.repositories.RoleRepository;
+import com.onlinestore.auth2.service.ReactiveUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -26,6 +34,9 @@ import org.springframework.security.oauth2.server.authorization.settings.TokenSe
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
@@ -40,11 +51,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Configuration
-//@EnableWebFluxSecurity
+@EnableWebFluxSecurity
 public class AuthorizationServerConfig {
 
-    private final UserDetailsService userDetailsService;
     private static final String ROLES_CLAIM = "roles";
+    private final ReactiveUserDetailsService userDetailsService;
+    private final PasswordEncoder bcryptPasswordEncoder;
 
     @Value("${spring.security.keyFile}")
     private String keyFile;
@@ -65,29 +77,13 @@ public class AuthorizationServerConfig {
      * <p>Amikor az authorization szerver konfigurációjában beállítjuk az oauth részére a HttpSecurity objektumot,
      * akkor az abban beállított http kérések lesznek beállítva.</p>
      */
-//    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-////        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); //deprecated
-//        http.with(OAuth2AuthorizationServerConfigurer.authorizationServer(), Customizer.withDefaults());
-//        return http.userDetailsService(userDetailsService).formLogin(Customizer.withDefaults()).build();
-//    }
-
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.securityMatcher(new AntPathRequestMatcher("/oauth2/**"))
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+    SecurityWebFilterChain authServerSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+        http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**"))
+                .authorizeExchange(authorizeExchange -> authorizeExchange.anyExchange().authenticated())
                 .formLogin(Customizer.withDefaults());
         return http.build();
-    }
-
-    /**
-     * <p>Ez a bean fogja elvégezni a token kódolását.</p>
-     */
-    @Bean
-    JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
     @Bean
@@ -125,10 +121,10 @@ public class AuthorizationServerConfig {
         return AuthorizationServerSettings.builder().issuer(providerUrl).build();
     }
 
-    /**
-     * <p>Az authorization konfigurációban a RegisteredClientRepository bean létrehozásához megadtunk egy tokenSettings() metódus hívást.
-     * A metódus egy TokenSettings bean-t hoz létre</p>
-     * */
+        /**
+         * <p>Az authorization konfigurációban a RegisteredClientRepository bean létrehozásához megadtunk egy tokenSettings() metódus hívást.
+         * A metódus egy TokenSettings bean-t hoz létre</p>
+         */
     @Bean
     TokenSettings tokenSettings() {
         return TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(Long.parseLong(tokenTimeout))).build();
@@ -139,49 +135,34 @@ public class AuthorizationServerConfig {
      * <p>mikortól az OAUTH önálló project lett, akkor az automatikus role beállítás kikerült a projekt-ből.
      * Ezért külön bean-t kell létrehoznunk az authorization server config -ban,
      * kiszedni a context által tartalmazott principal-ból és hozzáadni a context által tartalmazott claims-hez</p>
-     * */
+     */
     @Bean
     OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
         return context -> {
             if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)) {
                 Authentication principal = context.getPrincipal();
-                Set<String> authorities = principal.getAuthorities()
-                        .stream().map(GrantedAuthority::getAuthority)
+                Set<String> authorities = principal.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toSet());
                 context.getClaims().claim(ROLES_CLAIM, authorities);
             }
         };
     }
 
+//    /**
+//     * <p>Reaktív UserDetailsService bean definíció.</p>
+//     */
 //    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-//        http.authorizeExchange(authorize ->
-//                authorize
-//                        .anyExchange().authenticated()
-//        ).oauth2ResourceServer(oauth2 ->
-//                oauth2.jwt(Customizer.withDefaults()));
-//        return http.build();
+//    @Primary
+//    ReactiveUserDetailsService userDetailsService() {
+//        return new ReactiveUserDetailsServiceImpl(customerRepository, roleRepository);
 //    }
-//
-//    @Bean
-//    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
-//        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-//        return http.build();
-//    }
-//
-//    @Bean
-//    public JwtDecoder jwtDecoder() {
-//        return NimbusJwtDecoder.withPublicKey(publicKey()).build();
-//    }
-//
-//    // Add your public key here
-//    private RSAPublicKey publicKey() {
-//        // Load your public key
-//    }
-//
-//    @Bean
-//    public ReactiveJwtDecoder jwtDecoder() {
-//        return ReactiveJwtDecoders.fromIssuerLocation("https://my-auth-server.com");
-//    }
+
+    @Bean
+    public ReactiveAuthenticationManager authenticationManager() {
+        UserDetailsRepositoryReactiveAuthenticationManager authenticationManager =
+                new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
+        authenticationManager.setPasswordEncoder(bcryptPasswordEncoder);
+        return authenticationManager;
+    }
 }

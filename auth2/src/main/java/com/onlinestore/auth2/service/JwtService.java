@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -19,7 +20,7 @@ public class JwtService {
 
     private final JwtEncoder jwtEncoder;
 
-    public String generateToken(Authentication authentication){
+    public Mono<String> generateToken(Authentication authentication) {
         Instant now = Instant.now();
         Consumer<Map<String, Object>> claimsConsumer = claims -> {
             claims.put("sub", authentication.getName());
@@ -35,6 +36,6 @@ public class JwtService {
                 .claims(claimsConsumer) //Egyéni követelések: Bármely további követelés, amelyet fel kíván venni.
                 .build();
 
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).toString();
+        return Mono.justOrEmpty(this.jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue());
     }
 }
