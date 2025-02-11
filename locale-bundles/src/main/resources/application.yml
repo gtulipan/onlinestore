@@ -9,6 +9,11 @@ spring:
 server:
   port: ${LOCAL_BUNDLES_SERVICE_PORT:8085}
 
+
+angular:
+  client:
+    url: ${ANGULAR_CLIENT_URL:http://localhost:4200}
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
