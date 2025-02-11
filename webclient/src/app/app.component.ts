@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslationService } from './translation.service';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <h1>{{ 'WELCOME_MESSAGE' | translate }}</h1>
-    <button (click)="changeLanguage('en')">English</button>
-    <button (click)="changeLanguage('hu')">Magyar</button>
-  `,
   standalone: true,
-  imports: [RouterOutlet, TranslateModule]
+  templateUrl: './app.component.html',
+  imports: [TranslateModule]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'webclient';
 
-  constructor(private translate: TranslateService) {
-    translate.setDefaultLang('hu');
+  constructor(public translationService: TranslationService, private translate: TranslateService) {}
+
+  ngOnInit() {
+    //TODO Sajnos e nélkül a hívás nélkül inicializáláskor a kulcsot jeleníti meg. Ez átmeneti megoldás...
+    this.changeLanguage(this.translate.getDefaultLang());
+    //this.translationService.updateTranslations();
   }
 
   changeLanguage(lang: string) {
-    this.translate.use(lang);
+    this.translationService.changeLanguage(lang);
+    this.translationService.updateTranslations();
   }
 }
