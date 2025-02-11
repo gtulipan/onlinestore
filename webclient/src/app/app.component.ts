@@ -1,27 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common'; 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslationService } from './translation.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   templateUrl: './app.component.html',
-  imports: [TranslateModule]
+  imports: [RouterOutlet, TranslateModule, CommonModule]
 })
 export class AppComponent implements OnInit {
-  title = 'webclient';
+  translationService = inject(TranslationService);
+  translateService = inject(TranslateService);
 
-  constructor(public translationService: TranslationService, private translate: TranslateService) {}
+  constructor() {}
 
   ngOnInit() {
-    //TODO Sajnos e nélkül a hívás nélkül inicializáláskor a kulcsot jeleníti meg. Ez átmeneti megoldás...
-    this.changeLanguage(this.translate.getDefaultLang());
-    //this.translationService.updateTranslations();
+    this.translationService.updateTranslations();  // Kezdeményezzük a fordítások frissítését az inicializáláskor
   }
 
   changeLanguage(lang: string) {
-    this.translationService.changeLanguage(lang);
-    this.translationService.updateTranslations();
+    this.translationService.changeLanguage(lang);  // A nyelv váltását a TranslationService kezeli
   }
 }

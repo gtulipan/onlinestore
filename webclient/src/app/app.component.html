@@ -1,3 +1,9 @@
-<h1>{{ translationService.welcomeMessage() }}</h1>
-<button (click)="changeLanguage('en')">English</button>
-<button (click)="changeLanguage('hu')">Magyar</button>
+<ng-container *ngIf="!translationService.loading(); else loading">
+    <h1>{{ translationService.welcomeMessage() }}</h1>
+    <button (click)="changeLanguage('en')">English</button>
+    <button (click)="changeLanguage('hu')">Magyar</button>
+  </ng-container>
+  <ng-template #loading>
+    <p>Loading...</p>
+  </ng-template>
+  
