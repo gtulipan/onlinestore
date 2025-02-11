@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -24,13 +25,13 @@ import java.util.Locale;
 public class MessageController {
 
     private final MessageService messageService;
+
     @Operation(summary = "Get all messages based on localization", description = "Retrieves a resources bundles")
     @GetMapping(value = "/v1/{lang}.json", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Resource> getMessages(@NotBlank @PathVariable("lang") String lang) throws IOException {
+    public Mono<ResponseEntity<Resource>> getMessages(@NotBlank @PathVariable("lang") String lang) throws IOException {
         var resource = messageService.getMessagesByLanguage(lang.toLowerCase(Locale.ROOT));
-        if (!resource.exists() || resource.contentLength() == 0) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(resource);
+        return resource
+                .map(res -> ResponseEntity.ok(res))
+                .switchIfEmpty(Mono.defer(() -> Mono.just(ResponseEntity.notFound().build())));
     }
 }

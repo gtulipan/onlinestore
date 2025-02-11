@@ -1,7 +1,8 @@
 package com.onlinestore.locale_bundles.service;
 
 import org.springframework.core.io.Resource;
+import reactor.core.publisher.Mono;
 
 public interface MessageService {
-    public Resource getMessagesByLanguage(String lang);
+    Mono<Resource> getMessagesByLanguage(String lang);
 }
