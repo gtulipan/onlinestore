@@ -26,8 +26,7 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-config:6.4.2'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.4.1'
 
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:3.3.5'
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:3.4.2'
 	implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.4'
@@ -46,12 +45,13 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.2.Final'
 	implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
 
-	runtimeOnly 'org.liquibase:liquibase-core'
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE'
 
 	testImplementation 'com.h2database:h2:2.3.232'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
-	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	testImplementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:3.4.2'
 	testImplementation 'ch.qos.logback:logback-classic:1.5.10'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.1.4'
@@ -67,6 +67,12 @@ test {
 }
 
 sourceSets {
+	main {
+		resources {
+			srcDirs = ['src/main/resources']
+			includes = ['**/*.*']
+		}
+	}
 	test {
 		java.srcDirs = ['src/test/java/unit', 'src/test/java/intg']
 	}

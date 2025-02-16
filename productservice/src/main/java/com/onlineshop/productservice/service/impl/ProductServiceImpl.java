@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.sql.Timestamp;
+import java.util.UUID;
+
 /**
  * Service implementation to serving Product's business logic
  */
@@ -40,6 +43,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<ProductDto> saveNewProduct(ProductDto productDto) {
         Product product = productMapper.toProduct(productDto);
+        if (product.getId() == null) {
+            product.setId(UUID.randomUUID());
+            product.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        }
+        product.setLastModifiedDate(new Timestamp(System.currentTimeMillis()));
         return productRepository.save(product) // Non-blocking call
                 .map(productMapper::toProductDto);
     }

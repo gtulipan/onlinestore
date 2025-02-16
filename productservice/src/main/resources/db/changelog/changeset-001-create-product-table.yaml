@@ -1,15 +1,26 @@
 databaseChangeLog:
+  - property:
+      name: schemaName
+      value: ${DB_POSTGRESQL_DATABASE_SCHEMA}
   - changeSet:
       id: 1
-      author: GustavTulip
+      author: Gustav TULIP
+      changes:
+        - sql:
+            sql: |
+              SET search_path TO ${schemaName};
+              CREATE SCHEMA IF NOT EXISTS ${schemaName};
+  - changeSet:
+      id: 2
+      author: Gustav TULIP
+      schemaName: "${schemaName}"
       changes:
         - createTable:
             tableName: product
             columns:
               - column:
                   name: id
-                  type: long
-                  autoIncrement: true
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -24,13 +35,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: createdDate
+                  name: created_date
                   type: timestamp
                   constraints:
                     updatable: false
                     nullable: false
               - column:
-                  name: lastModifiedDate
+                  name: last_modified_date
                   type: timestamp
                   constraints:
                     nullable: false

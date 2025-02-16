@@ -1,7 +1,8 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 3
       author: GustavTulip
+      schemaName: "${schemaName}"
       changes:
         - addColumn:
             tableName: product

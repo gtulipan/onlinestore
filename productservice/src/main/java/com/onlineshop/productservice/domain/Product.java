@@ -1,27 +1,33 @@
 package com.onlineshop.productservice.domain;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
+@Table("product")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column("id")
+    private UUID id;
 
-    @Column(unique = true)
+    @NotNull(message = "Name cannot be NULL")
+    @Column("name")
     @Size(min = 1, max = 255)
     private String name;
 
@@ -29,14 +35,15 @@ public class Product {
     @Positive
     private double price;
 
-    @CreationTimestamp
-    @Column(updatable = false)
+    @CreatedDate
+    @Column("created_date")
     private Timestamp createdDate;
 
-    @UpdateTimestamp
+    @LastModifiedDate
+    @Column("last_modified_date")
     private Timestamp lastModifiedDate;
 
-    @Column
+    @Column("description")
     @Size(max = 1024)
     private String description;
 

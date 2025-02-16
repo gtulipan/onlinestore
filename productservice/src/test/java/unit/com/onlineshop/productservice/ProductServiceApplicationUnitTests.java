@@ -3,13 +3,14 @@ package com.onlineshop.productservice;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = ProductServiceApplication.class)
 @ActiveProfiles("test")
+@ContextConfiguration(classes = ProductServiceApplication.class)
 class ProductServiceApplicationUnitTests {
 
-	@Test
-	void contextLoads() {}
+    @Test
+    void contextLoads() {
+    }
 }
