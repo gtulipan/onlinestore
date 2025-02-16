@@ -1,10 +1,13 @@
 package com.onlinestore.auth2.domain;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.sql.Timestamp;
@@ -15,40 +18,35 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "role")
+@Table("role")
 public class RoleEntity implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column("id")
     private UUID id;
 
     @Size(min = 1, max = 255)
-    @Column(name = "role_name", nullable = false)
+    @Column("role_name")
     private String roleName;
 
-    @CreationTimestamp
-    @Column(updatable = false)
+    @CreatedDate
+    @Column("created_date")
     private Timestamp createdDate;
 
-    @UpdateTimestamp
+    @LastModifiedDate
+    @Column("last_modified_date")
     private Timestamp lastModifiedDate;
 
     @Version
-    @Column(name = "version")
+    @Column("version")
     private int version;
 
-//FIXME:
-//    @ManyToOne(fetch = FetchType.LAZY) R2dbc-ben nincs many-to-one és társai :(
-//    @JoinColumn(name = "customer_id", nullable = false)
-//    private Customer customer;
-
-    @Column(name = "customer_id", nullable = false)
+    @Column("customer_id")
     private UUID customerId;
 
     @Override
     public String getAuthority() {
         return roleName;
     }
+
 }

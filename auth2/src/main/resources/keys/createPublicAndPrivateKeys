@@ -1,7 +1,50 @@
+# a -genkeypair a parancs a generálásra;
+# az -alias onlinestorekey a hivatkozási neve lesz;
+# -keyalg RSA a használt algoritmus megadása;
+# -keypass jwt680305 a kulcs eléréséhez szükséges kulcs jelszava;
+# -keystore jjwtonlinestore.jks a kulcs párt tároló fájl neve lesz (jks = java key store);
+# -storepass jwt680305 a store eléréséhez szükséges jelszó
+c:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>keytool -genkeypair -alias onlinestorekey -keyalg RSA -keypass jwt680305 -keystore ../jwtonlinestore.jks -storepass jwt680305
+
+
 c:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>C:\OpenSSL-Win64\bin\openssl genrsa -out private_key.pem 4096
 
 c:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>C:\OpenSSL-Win64\bin\openssl rsa -pubout -in private_key.pem -out public_key.pem
 writing RSA key
 
-# convert private key to pkcs8 format in order to import it from Java
+# convert private és public key to pkcs8 format in order to import it from Java
 c:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>C:\OpenSSL-Win64\bin\openssl pkcs8 -topk8 -in private_key.pem -inform pem -out private_key_pkcs8.pem -outform pem -nocrypt
+
+#keytool közvetlenül a PEM formátumú kulcsokat nem tudja importálni. PKCS#12 formátum kell. Ehhez a parancs:
+#Ez nem mükszik: helyette lejebb: #:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>C:\OpenSSL-Win64\bin\openssl pkcs12 -export -in public_key.pem -inkey private_key.pem -out keystore.p12 -name pkcs12key
+
+#Készíts egy önaláírt tanúsítványt a privát kulcsból (cert.pem)
+c:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>C:\OpenSSL-Win64\bin\openssl req -new -x509 -key private_key.pem -out cert.pem -days 365
+
+#Konvertáld a privát kulcsot és az önaláírt tanúsítványt PKCS#12 formátumba
+c:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>C:\OpenSSL-Win64\bin\openssl pkcs12 -export -in cert.pem -inkey private_key.pem -out keystore.p12 -name onlinestorekey -passout pass:680305tg
+
+# keystore.p12 fájl importálása a JKS fájlba
+# deststorepass: JKS fájl jelszava.
+# destkeypass: A kulcs jelszava a JKS fájlban.
+# destkeystore: A cél JKS fájl neve.
+# srckeystore: Az importálandó PKCS#12 fájl neve.
+# srcstoretype: PKCS#12 (ezt a fájltípusban kell megadni).
+# srcstorepass: A PKCS#12 fájl jelszava.
+# alias: A kulcs alias neve a JKS fájlban
+#c:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>keytool -importkeystore -deststorepass password -destkeypass password -destkeystore jwtonlinestore.jks -srckeystore keystore.p12 -srcstoretype PKCS12 -srcstorepass password -alias mykey
+C:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources\keys>keytool -importkeystore -deststorepass jwt680305 -destkeypass jwt680305 -destkeystore ../jwtonlinestore.jks -srckeystore keystore.p12 -srcstoretype PKCS12 -srcstorepass 680305tg -alias onlinestorekey
+
+# JKS kulcsok kilistázása
+C:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources>keytool -list -v -keystore jwtonlinestore.jks -storepass jwt680305
+
+#felesleges kulcsokat törölni kell, hogy ne okozzanak zavart a kulcs kiválasztásakor. Az unnecessaryAlias helyére kell behelyettesíteni:
+#C:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources>keytool -delete -alias unnecessaryAlias -keystore jwtonlinestore.jks -storepass jwt680305
+#nekem most a hibás alias-ok (fentebb most javítottam):
+C:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources>keytool -delete -alias ../jwtonlinestore -keystore jwtonlinestore.jks -storepass jwt680305
+#majd:
+C:\DEV_TOOLS\intelliJ_workspace\onlinestore\auth2\src\main\resources>keytool -delete -alias jwtonlinestore -keystore jwtonlinestore.jks -storepass jwt680305
+
+
+
+

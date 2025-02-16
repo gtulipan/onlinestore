@@ -17,10 +17,6 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 public class Auth2Application {
 
     public static void main(String[] args) {
-//        try (AnnotationConfigApplicationContext context
-//                     = new AnnotationConfigApplicationContext(Auth2Application.class)) {
-//            context.getBean(NettyContext.class).onClose().block();
-//        }
         ApplicationContext context = SpringApplication.run(Auth2Application.class, args);
         Environment env = context.getEnvironment();
         log.debug("***************** The {} application started on {} port *****************",

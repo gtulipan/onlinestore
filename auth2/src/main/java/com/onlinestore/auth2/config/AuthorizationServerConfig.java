@@ -35,6 +35,7 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -57,21 +58,23 @@ public class AuthorizationServerConfig {
     private static final String ROLES_CLAIM = "roles";
     private final ReactiveUserDetailsService userDetailsService;
     private final PasswordEncoder bcryptPasswordEncoder;
+    private final CorsConfig corsConfig;
+    private final CsrfConfig csrfConfig;
 
     @Value("${spring.security.keyFile}")
-    private String keyFile;
+    private String keyFile;// = "jwtonlinestore.jks";
 
     @Value("${spring.security.password}")
-    private String password;
+    private String password;//="jwt680305";
 
     @Value("${spring.security.alias}")
-    private String alias;
+    private String alias;//="jwtonlinestore";
 
     @Value("${spring.security.providerUrl}")
-    private String providerUrl;
+    private String providerUrl;//="http://localhost:8083";
 
     @Value("${spring.security.token-timeout}")
-    private String tokenTimeout;
+    private String tokenTimeout;//="30";
 
     /**
      * <p>Amikor az authorization szerver konfigurációjában beállítjuk az oauth részére a HttpSecurity objektumot,
@@ -79,8 +82,13 @@ public class AuthorizationServerConfig {
      */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    SecurityWebFilterChain authServerSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+    public SecurityWebFilterChain authServerSecurityFilterChain(ServerHttpSecurity http) throws Exception {
         http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**"))
+                .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
+                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
+                )
                 .authorizeExchange(authorizeExchange -> authorizeExchange.anyExchange().authenticated())
                 .formLogin(Customizer.withDefaults());
         return http.build();
@@ -105,9 +113,9 @@ public class AuthorizationServerConfig {
      * <p>A jwk selector fogja visszaadni a jwk set-ből a jwk source-t. Azaz szükséges egy JWKSet konfiguráció is</p>
      */
     private JWKSet buildJWKSet() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-        KeyStore keyStore = KeyStore.getInstance("pkcs12");
-        try (InputStream fis = this.getClass().getClassLoader().getResourceAsStream(keyFile);) {
-            keyStore.load(fis, alias.toCharArray());
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        try (InputStream fis = this.getClass().getClassLoader().getResourceAsStream(keyFile)) {
+            keyStore.load(fis, password.toCharArray());
             return JWKSet.load(keyStore, name -> password.toCharArray());
         }
     }

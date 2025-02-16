@@ -1,10 +1,89 @@
+#################################################################################################################
+# liquibase --url=jdbc:postgresql://localhost:5433/auth --username=postgres --password=postgres clear-checksums #
+#################################################################################################################
 databaseChangeLog:
+  - property:
+      name: schemaName
+      value: public
+
   - changeSet:
       id: 1
-      author: Gusztáv TULIPÁN
+      author: Gustav TULIP
+      changes:
+        - sql:
+            sql: |
+              SET search_path TO ${schemaName};
+              CREATE SCHEMA IF NOT EXISTS ${schemaName};
+#              -- DROP SCHEMA IF EXISTS ${schemaName} CASCADE;
+#              DROP TABLE IF EXISTS ${schemaName}.databasechangelog;
+#              DROP TABLE IF EXISTS ${schemaName}.databasechangeloglock;
+#              DROP TABLE IF EXISTS ${schemaName}.customer;
+#              DROP TABLE IF EXISTS ${schemaName}.role;
+#  - changeSet:
+#      id: 2
+#      author: Gustav TULIP
+#      schemaName: "${schemaName}"
+#      changes:
+#        - sql:
+#            sql: |
+#              SET search_path TO ${schemaName};
+#              CREATE TABLE ${schemaName}.databasechangelog (
+#                  id VARCHAR(255) NOT NULL,
+#                  author VARCHAR(255) NOT NULL,
+#                  filename VARCHAR(255) NOT NULL,
+#                  dateexecuted TIMESTAMP NOT NULL,
+#                  orderexecuted INTEGER NOT NULL,
+#                  exectype VARCHAR(10) NOT NULL,
+#                  md5sum VARCHAR(35) NULL,
+#                  description VARCHAR(255) NULL,
+#                  comments VARCHAR(255) NULL,
+#                  tag VARCHAR(255) NULL,
+#                  liquibase VARCHAR(20) NULL,
+#                  contexts VARCHAR(255) NULL,
+#                  labels VARCHAR(255) NULL,
+#                  deployment_id VARCHAR(10) NULL,
+#                  PRIMARY KEY (id, author, filename)
+#                  );
+#  - changeSet:
+#      id: 3
+#      author: Gustav TULIP
+#      schemaName: "${schemaName}"
+#      changes:
+#        - sql:
+#            sql: |
+#              SET search_path TO ${schemaName};
+#              CREATE TABLE ${schemaName}.databasechangeloglock (
+#                  id INTEGER NOT NULL,
+#                  locked BOOLEAN NOT NULL,
+#                  lockgranted TIMESTAMP NULL,
+#                  lockedby VARCHAR(255) NULL,
+#                  PRIMARY KEY (id)
+#                  );
+  - changeSet:
+      id: 4
+      author: Gustav TULIP
+      schemaName: "${schemaName}"
+      changes:
+        - sql:
+            sql: |
+              SET search_path TO ${schemaName};
+              DO $$
+              BEGIN
+                BEGIN
+                  CREATE TYPE ${schemaName}.status AS ENUM ('ACTIVE', 'INACTIVE', 'PENDING', 'SUSPENDED');
+                EXCEPTION
+                  WHEN duplicate_object THEN null;
+                END;
+              END
+              $$ LANGUAGE plpgsql;
+
+  - changeSet:
+      id: 5
+      author: Gustav TULIP
+      schemaName: "${schemaName}"
       changes:
         - createTable:
-            tableName: "customer"
+            tableName: customer
             columns:
               - column:
                   name: id
@@ -23,7 +102,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: phoneNumber
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
                   type: varchar(25)
                   constraints:
                     nullable: false
@@ -33,13 +117,18 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: createdDate
+                  name: status
+                  type: status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
                   type: timestamp
                   constraints:
                     updatable: false
                     nullable: false
               - column:
-                  name: lastModifiedDate
+                  name: last_modified_date
                   type: timestamp
                   constraints:
                     nullable: false
@@ -48,8 +137,9 @@ databaseChangeLog:
                   type: int
 
   - changeSet:
-      id: 2
-      author: Gusztáv TULIPÁN
+      id: 6
+      author: Gustav TULIP
+      schemaName: "${schemaName}"
       changes:
         - createTable:
             tableName: role
@@ -71,13 +161,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: createdDate
+                  name: created_date
                   type: timestamp
                   constraints:
                     updatable: false
                     nullable: false
               - column:
-                  name: lastModifiedDate
+                  name: last_modified_date
                   type: timestamp
                   constraints:
                     nullable: false
@@ -86,12 +176,13 @@ databaseChangeLog:
                   type: int
 
   - changeSet:
-      id: 3
-      author: Gusztáv TULIPÁN
+      id: 7
+      author: Gustav TULIP
+      schemaName: "${schemaName}"
       changes:
         - addForeignKeyConstraint:
             baseTableName: role
             baseColumnNames: customer_id
-            referencedTableName: "customer"
+            referencedTableName: customer
             referencedColumnNames: id
             constraintName: fk_customer_role

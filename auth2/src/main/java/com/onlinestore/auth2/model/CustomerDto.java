@@ -1,5 +1,7 @@
 package com.onlinestore.auth2.model;
 
+import com.onlinestore.auth2.domain.RoleEntity;
+import com.onlinestore.auth2.domain.Status;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
@@ -10,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -37,7 +40,13 @@ public class CustomerDto {
     @Size(min = 1, max = 255)
     private String address;
 
+    private Status status;
+
+    private Set<RoleEntity> roles;
+
     private OffsetDateTime createdDate;
+
     private OffsetDateTime lastModifiedDate;
+
     private Integer version;
 }

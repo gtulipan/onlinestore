@@ -13,3 +13,10 @@ spring:
     show-sql: true
   liquibase:
     enabled: false
+  r2dbc:
+    host: localhost
+    port: 5433
+    database: product
+    username: postgres
+    password: postgres
+    schema: public
