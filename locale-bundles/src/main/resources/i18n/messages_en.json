@@ -1,4 +1,6 @@
 {
   "WELCOME_MESSAGE" : "Welcome!",
-  "USER_NAME" : "Username"
+  "USER_NAME" : "Username",
+  "PASSWORD" : "Password",
+  "LOGIN" : "Login"
 }

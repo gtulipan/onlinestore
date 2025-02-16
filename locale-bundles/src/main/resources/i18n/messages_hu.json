@@ -1,4 +1,6 @@
 {
   "WELCOME_MESSAGE" : "Üdvözöljük!",
-  "USER_NAME" : "Felhasználói név"
+  "USER_NAME" : "Felhasználói név",
+  "PASSWORD" : "Jelszó",
+  "LOGIN" : "Bejelentkezés"
 }
