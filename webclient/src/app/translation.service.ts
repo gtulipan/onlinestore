@@ -9,6 +9,8 @@ import { signal, Signal } from '@angular/core';
 export class TranslationService {
   welcomeMessage = signal<string>('');
   userName = signal<string>('');
+  password = signal<string>('');
+  login = signal<string>('');
   loading = signal<boolean>(true);
 
   constructor(
@@ -30,6 +32,8 @@ export class TranslationService {
     console.log('Updating translations...');
     this.welcomeMessage.set(await this.translate.get('WELCOME_MESSAGE').toPromise());
     this.userName.set(await this.translate.get('USER_NAME').toPromise());
+    this.password.set(await this.translate.get('PASSWORD').toPromise());
+    this.login.set(await this.translate.get('LOGIN').toPromise());
     console.log('New welcomeMessage:', this.welcomeMessage());
   }
 
