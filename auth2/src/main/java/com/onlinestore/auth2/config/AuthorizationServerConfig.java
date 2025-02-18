@@ -80,19 +80,19 @@ public class AuthorizationServerConfig {
      * <p>Amikor az authorization szerver konfigurációjában beállítjuk az oauth részére a HttpSecurity objektumot,
      * akkor az abban beállított http kérések lesznek beállítva.</p>
      */
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityWebFilterChain authServerSecurityFilterChain(ServerHttpSecurity http) throws Exception {
-        http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**"))
-                .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
-                .csrf(csrf -> csrf
-                        .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
-                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
-                )
-                .authorizeExchange(authorizeExchange -> authorizeExchange.anyExchange().authenticated())
-                .formLogin(Customizer.withDefaults());
-        return http.build();
-    }
+//    @Bean
+//    @Order(Ordered.HIGHEST_PRECEDENCE)
+//    public SecurityWebFilterChain authServerSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+//        http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**"))
+//                .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
+//                .csrf(csrf -> csrf
+//                        .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
+//                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
+//                )
+//                .authorizeExchange(authorizeExchange -> authorizeExchange.anyExchange().authenticated())
+//                .formLogin(Customizer.withDefaults());
+//        return http.build();
+//    }
 
     @Bean
     JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {

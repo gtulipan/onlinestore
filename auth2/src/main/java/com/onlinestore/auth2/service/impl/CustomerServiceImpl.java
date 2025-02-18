@@ -39,6 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
                                 .collectList()
                                 .map(roles -> {
                                     customer.setRoles(new HashSet<>(roles));
+                                    log.debug("Customer by mail is: "+customer);
                                     return customer;
                                 })
                 )

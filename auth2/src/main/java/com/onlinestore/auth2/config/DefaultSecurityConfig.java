@@ -1,10 +1,8 @@
 package com.onlinestore.auth2.config;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
@@ -13,7 +11,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,6 +19,9 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
+@Slf4j
 @Configuration
 @EnableWebFluxSecurity
 public class DefaultSecurityConfig {
@@ -41,15 +41,17 @@ public class DefaultSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
-                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
+                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler()::handle)
                 )
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/swagger-ui/**", "/app/**",
+                        .pathMatchers("/auth/csrf-token", "/swagger-ui/**", "/app/**",
                                 "/auth/v1/login", "/auth/v1/register", "webjars/**",
                                 "/v3/api-docs/**", "/swagger-ui.html", "/csrf-token").permitAll()
                         .anyExchange().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+// .formLogin(Customizer.withDefaults()) // Disable the default formLogin to avoid /login endpoint.
+// .formLogin().disable() // The formLogin() deprecated
+                .httpBasic(withDefaults()) // Alapvető HTTP alapú hitelesítés engedélyezése
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> {
                             jwt.jwtAuthenticationConverter(jwtAuthenticationConverter());

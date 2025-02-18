@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -28,7 +30,7 @@ public class AuthController {
     @CrossOrigin(origins = "${angular.client.url}")
     @PostMapping("/v1/login")
     /**
-     * Tesztelés. A /csrf-token végponton hozatjuk létre a csrf tokent, amivel tesztelni tudjuk a szerver működését.
+     * Tesztelés. A CsrfController /csrf-token végponton hozatjuk létre a csrf tokent, amivel tesztelni tudjuk a szerver működését.
      * PowerShell-ből:
      * 1. lépés: Invoke-WebRequest -Uri http://localhost:8083/csrf-token -SessionVariable Session | Out-Null
      * 2. lépés: $csrfToken = $Session.Cookies.GetCookies("http://localhost:8083")["XSRF-TOKEN"].Value
@@ -38,12 +40,22 @@ public class AuthController {
      * */
     public Mono<String> login(@RequestBody AuthenticationRequest request) {
         log.debug("**********/auth/v1/login***********");
-        log.debug("request: "+request.getUsername()+" - "+request.getPassword());
+        log.debug("request: " + request.getUsername() + " - " + request.getPassword() + request);
         return authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         ).flatMap(authentication ->
                 customerService.findCustomerWithRoles(request.getUsername())
                         .flatMap(customer -> jwtService.generateToken(authentication))
         );
+    }
+
+    @CrossOrigin(origins = "${angular.client.url}")
+    @GetMapping("/csrf-token")
+    public Mono<CsrfToken> getCsrfToken(ServerWebExchange exchange) {
+        log.debug("**********/auth/csrf-token***********");
+        return exchange.getAttributeOrDefault(CsrfToken.class.getName(), Mono.<CsrfToken>empty())
+                .doOnNext(token -> {
+                    log.debug("Returning CSRF Token: {}", token.getToken());
+                });
     }
 }
