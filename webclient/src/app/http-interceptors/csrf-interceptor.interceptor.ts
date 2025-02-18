@@ -15,7 +15,8 @@ export class CsrfInterceptor implements HttpInterceptor {
     console.log('CSRF Token:', csrfToken);
     if (csrfToken) {
       const clonedRequest = req.clone({
-        headers: req.headers.set('X-XSRF-TOKEN', csrfToken) // Győződj meg róla, hogy a helyes header nevet használod
+        headers: req.headers.set('XSRF-TOKEN', csrfToken),
+        withCredentials: true // Beállítjuk a withCredentials flaget
       });
       return next.handle(clonedRequest);
     } else {

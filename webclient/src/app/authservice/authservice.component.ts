@@ -1,40 +1,57 @@
-import { Component, Output } from '@angular/core';
-import { EventEmitter } from '@angular/core';
-import { TranslationService } from '../translation.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common'; 
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { SIGNAL_TOKEN } from './signal-token';
-import { Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { CsrfService, CsrfToken } from '../csrf.service';
+import { TranslationService } from '../translation.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-authservice',
-  imports: [ TranslateModule, CommonModule, FormsModule ],
-  standalone: true,
   templateUrl: './authservice.component.html',
-  styleUrl: './authservice.component.css',
-  providers: [ { provide: SIGNAL_TOKEN, useValue: new EventEmitter<string>() } ]  // Biztosítjuk a Signal Token-t
+  styleUrls: ['./authservice.component.css'],
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
-export class AuthserviceComponent {
+export class AuthserviceComponent implements OnInit {
   username: string = '';
   password: string = '';
+  loading: boolean = false;
 
-  @Output() loginSuccess: EventEmitter<string> = new EventEmitter<string>();
+  constructor(
+    private http: HttpClient,
+    private csrfService: CsrfService,
+    public translationService: TranslationService
+  ) {}
 
-  constructor(public translationService: TranslationService,
-    private http: HttpClient, 
-    @Inject(SIGNAL_TOKEN) private signal: EventEmitter<string>) {}
-  
-    onSubmit() {
-      const loginPayload = { username: this.username, password: this.password };
-      this.http.post(environment.authenticationUrl, loginPayload)
-      .subscribe((response: any) => {
-        console.log('Login Response:', response);
-        this.loginSuccess.emit(response.token);
-      }, (error) => {
-        console.error('Login failed', error);
-      });
-    }
+  ngOnInit(): void {
+    // Kérjük a CSRF tokent, amikor az alkalmazás inicializálódik
+    this.csrfService.getCsrfToken().subscribe({
+      next: (token: CsrfToken) => {
+        console.log('Generated CSRF Token:', token.token);
+        document.cookie = `XSRF-TOKEN=${token.token}; Path=/`;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log('Failed to get CSRF token', error);
+      }
+    });
+  }
+
+  onSubmit() {
+    this.loading = true;
+    // A login kérés végrehajtása
+    const loginData = { username: this.username, password: this.password };
+    this.http.post(environment.authenticationUrl, loginData, {
+      withCredentials: true // Beállítjuk a withCredentials flaget
+    }).subscribe({
+      next: (response) => {
+        console.log('Login successful', response);
+        this.loading = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log('Login failed', error);
+        this.loading = false;
+      }
+    });
+  }
 }

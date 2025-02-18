@@ -9,9 +9,10 @@ import { TranslationService } from './translation.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CsrfInterceptor } from './http-interceptors/csrf-interceptor.interceptor';
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
-import { AppComponent } from './app.component'; // Importálva
-import { AuthserviceComponent } from './authservice/authservice.component'; // Importálva
+import { AppComponent } from './app.component'; // Importálva, standalone komponens
+import { AuthserviceComponent } from './authservice/authservice.component'; // Importálva, standalone komponens
 import { environment } from '../environments/environment'; // Importáljuk az environment változót
+import { CommonModule } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, environment.apiUrl, '.json');
@@ -22,6 +23,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    CommonModule,
     AppComponent, // Importált standalone komponens
     AuthserviceComponent, // Importált standalone komponens
     TranslateModule.forRoot({
