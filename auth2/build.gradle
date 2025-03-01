@@ -63,7 +63,7 @@ dependencies {
 	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.1.4'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	options.annotationProcessorPath = configurations.annotationProcessor
 }
 

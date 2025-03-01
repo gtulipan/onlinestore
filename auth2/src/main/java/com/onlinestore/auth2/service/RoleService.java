@@ -1,4 +1,4 @@
-package com.onlinestore.auth2.services;
+package com.onlinestore.auth2.service;
 
 import com.onlinestore.auth2.domain.RoleEntity;
 import com.onlinestore.auth2.repositories.RoleRepository;

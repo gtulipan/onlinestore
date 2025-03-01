@@ -24,7 +24,7 @@ public class JwtService {
         Instant now = Instant.now();
         Consumer<Map<String, Object>> claimsConsumer = claims -> {
             claims.put("sub", authentication.getName());
-            claims.put("authorities", authentication.getAuthorities().stream()
+            claims.put("roles", authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .toList());
         };

@@ -16,7 +16,7 @@ spring:
   r2dbc:
     host: localhost
     port: 5433
-    database: product
+    database: ath2
     username: postgres
     password: postgres
     schema: public

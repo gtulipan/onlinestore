@@ -41,22 +41,24 @@ public class DefaultSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
-                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler()::handle)
+                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
+                        //.requireCsrfProtectionMatcher(ServerWebExchangeMatchers.pathMatchers("/**")) // Allow CSRF for all paths
                 )
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/auth/csrf-token", "/swagger-ui/**", "/app/**",
-                                "/auth/v1/login", "/auth/v1/register", "webjars/**",
-                                "/v3/api-docs/**", "/swagger-ui.html", "/csrf-token").permitAll()
+                                "/auth/v1/login", "/auth/v1/register", "/webjars/**", "/webjars/swagger-ui/index.html",
+                                "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html", "/auth/csrf-token")
+                        .permitAll()
                         .anyExchange().authenticated()
                 )
-// .formLogin(Customizer.withDefaults()) // Disable the default formLogin to avoid /login endpoint.
-// .formLogin().disable() // The formLogin() deprecated
+                // .formLogin(Customizer.withDefaults()) // Disable the default formLogin to avoid /login endpoint.
                 .httpBasic(withDefaults()) // Alapvető HTTP alapú hitelesítés engedélyezése
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> {
                             jwt.jwtAuthenticationConverter(jwtAuthenticationConverter());
                         })
                 );
+
         return http.build();
     }
 

@@ -10,7 +10,9 @@ public class CustomCsrfTokenRequestHandler implements ServerCsrfTokenRequestHand
     @Override
     public void handle(ServerWebExchange exchange, Mono<CsrfToken> csrfToken) {
         csrfToken.doOnNext(token -> {
-            exchange.getResponse().getHeaders().add(token.getHeaderName(), token.getToken());
+            if (token != null) {
+                exchange.getResponse().getHeaders().add(token.getHeaderName(), token.getToken());
+            }
         }).subscribe();
     }
 

@@ -42,6 +42,8 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+    csrf:
+      enabled: true
 
 #http://localhost:8888/spring-boot-config/default, http://localhost:8080/actuator/configprops, a port a saj�tja legyen!
 #A http://localhost:8080/actuator/health vagy info linken a get k�r�s megmutatja az aktu�lis �llapotot.

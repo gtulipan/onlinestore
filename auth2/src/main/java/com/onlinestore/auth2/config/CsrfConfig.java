@@ -22,8 +22,8 @@ public class CsrfConfig {
 
     @Bean
     public ServerCsrfTokenRequestHandler serverCsrfTokenRequestHandler() {
-//        return new CustomCsrfTokenRequestHandler();
-        return new XorServerCsrfTokenRequestAttributeHandler();
+        return new CustomCsrfTokenRequestHandler();
+//        return new XorServerCsrfTokenRequestAttributeHandler();
     }
 
     @Bean
@@ -31,8 +31,16 @@ public class CsrfConfig {
         return (exchange, chain) -> {
             Mono<CsrfToken> csrfToken = exchange.getAttributeOrDefault(CsrfToken.class.getName(), Mono.empty());
             return csrfToken.doOnSuccess(token -> {
-                /* Ensures the token is subscribed to. */
             }).then(chain.filter(exchange));
         };
     }
+
+//    @Bean
+//    public WebFilter csrfWebFilter(CookieServerCsrfTokenRepository csrfTokenRepository) {
+//        return (exchange, chain) -> {
+//            Mono<CsrfToken> csrfToken = csrfTokenRepository.generateToken(exchange);
+//            exchange.getResponse().getHeaders().add("XSRF-TOKEN", csrfToken.block().getToken());
+//            return chain.filter(exchange);
+//        };
+//    }
 }

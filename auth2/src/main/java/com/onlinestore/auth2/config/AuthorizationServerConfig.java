@@ -38,6 +38,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
@@ -49,6 +50,8 @@ import java.security.cert.CertificateException;
 import java.time.Duration;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @RequiredArgsConstructor
 @Configuration
@@ -80,19 +83,20 @@ public class AuthorizationServerConfig {
      * <p>Amikor az authorization szerver konfigurációjában beállítjuk az oauth részére a HttpSecurity objektumot,
      * akkor az abban beállított http kérések lesznek beállítva.</p>
      */
-//    @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    public SecurityWebFilterChain authServerSecurityFilterChain(ServerHttpSecurity http) throws Exception {
-//        http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**"))
-//                .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
-//                .csrf(csrf -> csrf
-//                        .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
-//                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
-//                )
-//                .authorizeExchange(authorizeExchange -> authorizeExchange.anyExchange().authenticated())
-//                .formLogin(Customizer.withDefaults());
-//        return http.build();
-//    }
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityWebFilterChain authServerSecurityFilterChain(ServerHttpSecurity http) throws Exception {
+        http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/oauth2/**"))
+                .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
+                        .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
+                )
+                .authorizeExchange(authorizeExchange -> authorizeExchange.anyExchange().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
+                .httpBasic(withDefaults());
+        return http.build();
+    }
 
     @Bean
     JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
@@ -157,15 +161,6 @@ public class AuthorizationServerConfig {
         };
     }
 
-//    /**
-//     * <p>Reaktív UserDetailsService bean definíció.</p>
-//     */
-//    @Bean
-//    @Primary
-//    ReactiveUserDetailsService userDetailsService() {
-//        return new ReactiveUserDetailsServiceImpl(customerRepository, roleRepository);
-//    }
-
     @Bean
     public ReactiveAuthenticationManager authenticationManager() {
         UserDetailsRepositoryReactiveAuthenticationManager authenticationManager =
@@ -173,4 +168,5 @@ public class AuthorizationServerConfig {
         authenticationManager.setPasswordEncoder(bcryptPasswordEncoder);
         return authenticationManager;
     }
+
 }
