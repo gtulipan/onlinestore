@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
-import java.time.Duration;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Configuration
@@ -22,7 +22,7 @@ public class ClientConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId("onlinestoreservice")
+        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("onlinestoreclientapp")
                 .clientSecret(passwordEncoder.encode("9999"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
@@ -33,8 +33,18 @@ public class ClientConfig {
                 .scope("write")
                 .tokenSettings(tokenSettings)
                 .build();
+        //TODO az értékeket át kell tenni környezeti változókba
+        RegisteredClient productServiceClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("product-service")
+                .clientSecret(passwordEncoder.encode("secret1235"))
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .scope("internal")
+                .tokenSettings(tokenSettings)
+                .build();
 
-        return new InMemoryRegisteredClientRepository(registeredClient);
+        return new InMemoryRegisteredClientRepository(registeredClient, productServiceClient);
+        //TODO a memory clien-t le kell cserélni majd JdbcRegisteredClientRepository -ra !
     }
 }
 

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class CsrfInterceptor implements HttpInterceptor {
 
   constructor() {
-    console.log('Interceptor initialized');
+    console.log('CSRF Interceptor initialized');
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

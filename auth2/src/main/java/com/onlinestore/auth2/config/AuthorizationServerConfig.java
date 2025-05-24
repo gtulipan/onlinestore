@@ -3,43 +3,31 @@ package com.onlinestore.auth2.config;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.onlinestore.auth2.repositories.CustomerRepository;
-import com.onlinestore.auth2.repositories.RoleRepository;
-import com.onlinestore.auth2.service.ReactiveUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +39,7 @@ import java.time.Duration;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.onlinestore.auth2.constants.Constants.ROLE_ADMIN_ROLE_USER_HIERARCHY;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @RequiredArgsConstructor
@@ -133,10 +122,10 @@ public class AuthorizationServerConfig {
         return AuthorizationServerSettings.builder().issuer(providerUrl).build();
     }
 
-        /**
-         * <p>Az authorization konfigurációban a RegisteredClientRepository bean létrehozásához megadtunk egy tokenSettings() metódus hívást.
-         * A metódus egy TokenSettings bean-t hoz létre</p>
-         */
+    /**
+     * <p>Az authorization konfigurációban a RegisteredClientRepository bean létrehozásához megadtunk egy tokenSettings() metódus hívást.
+     * A metódus egy TokenSettings bean-t hoz létre</p>
+     */
     @Bean
     TokenSettings tokenSettings() {
         return TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(Long.parseLong(tokenTimeout))).build();
@@ -169,4 +158,11 @@ public class AuthorizationServerConfig {
         return authenticationManager;
     }
 
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        String hierarchy = ROLE_ADMIN_ROLE_USER_HIERARCHY;
+        roleHierarchy.setHierarchy(hierarchy);
+        return roleHierarchy;
+    }
 }

@@ -8,6 +8,7 @@ import { CustomMissingTranslationHandler } from './missing-translation.handler';
 import { TranslationService } from './translation.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CsrfInterceptor } from './http-interceptors/csrf-interceptor.interceptor';
+import { jwtInterceptorInterceptor } from './http-interceptors/jwt-interceptor.interceptor';
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { AppComponent } from './app.component'; // Importálva, standalone komponens
 import { AuthserviceComponent } from './authservice/authservice.component'; // Importálva, standalone komponens
@@ -42,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateService,
     TranslationService,
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useValue: jwtInterceptorInterceptor, multi: true }
   ]
 })
 export class AppModule { }

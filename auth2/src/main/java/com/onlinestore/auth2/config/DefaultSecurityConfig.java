@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -42,12 +43,29 @@ public class DefaultSecurityConfig {
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(csrfConfig.serverCsrfTokenRepository())
                         .csrfTokenRequestHandler(csrfConfig.serverCsrfTokenRequestHandler())
-                        //.requireCsrfProtectionMatcher(ServerWebExchangeMatchers.pathMatchers("/**")) // Allow CSRF for all paths
-                )
+                        .requireCsrfProtectionMatcher(ServerWebExchangeMatchers.pathMatchers(
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/webjars/**",
+                                        "/webjars/swagger-ui/index.html",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/index.html"
+                                )
+                        ))
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/auth/csrf-token", "/swagger-ui/**", "/app/**",
-                                "/auth/v1/login", "/auth/v1/register", "/webjars/**", "/webjars/swagger-ui/index.html",
-                                "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html", "/auth/csrf-token")
+                        .pathMatchers(
+                                "/auth/csrf-token",
+                                "/swagger-ui/**",
+                                "/app/**",
+                                "/auth/v1/login",
+                                "/auth/v1/register",
+                                "/webjars/**",
+                                "/webjars/swagger-ui/index.html",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/index.html",
+                                "/auth/csrf-token")
                         .permitAll()
                         .anyExchange().authenticated()
                 )

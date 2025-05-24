@@ -2,7 +2,6 @@ package com.onlinestore.auth2.controller;
 
 import com.onlinestore.auth2.model.AuthenticationRequest;
 import com.onlinestore.auth2.service.JwtService;
-import com.onlinestore.auth2.service.impl.CustomerServiceImpl;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +23,7 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 import static com.onlinestore.auth2.constants.Constants.BEARER;
+import static com.onlinestore.auth2.constants.Constants.TOKEN;
 
 @Slf4j
 @OpenAPIDefinition(info = @Info(title = "Auth2 Service", version = "v1"))
@@ -58,7 +57,7 @@ public class AuthController {
                     HttpHeaders httpHeaders = new HttpHeaders();
                     httpHeaders.add(HttpHeaders.AUTHORIZATION, BEARER + jwt);
                     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                    var tokenBody = Map.of("access_token", jwt);
+                    var tokenBody = Map.of(TOKEN, jwt);
                     return new ResponseEntity<>(tokenBody, httpHeaders, HttpStatus.OK);
                 })
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED)));

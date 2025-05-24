@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class ProductController {
 
     @Operation(summary = "Get product by ID", description = "Retrieves a product, based on ID")
     @GetMapping("/v1/products/{id}")
-    public Mono<ProductDto> getProductById(@PathVariable Long id) {
+    public Mono<ProductDto> getProductById(@NotNull @PathVariable Long id) {
         return productService.getProductById(id);
     }
 
