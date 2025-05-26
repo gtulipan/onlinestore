@@ -9,6 +9,10 @@ spring:
 server:
   port: ${LOCAL_BUNDLES_SERVICE_PORT:8085}
 
+security:
+  auth2:
+    host: ${AUTH2_HOST:localhost}
+    port: ${AUTH2_PORT:8083}
 
 angular:
   client:
