@@ -35,10 +35,13 @@ services:
       args:
         LOG_FOLDER: ${LOG_FOLDER}
         AUTH2_SERVICE_PORT: ${AUTH2_SERVICE_PORT}
+        AUTH2_SERVICE_DEBUG_PORT: ${AUTH2_SERVICE_DEBUG_PORT}
     env_file:
       - .env
     environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${AUTH2_SERVICE_DEBUG_PORT:5007}
       - AUTH2_SERVICE_PORT=${AUTH2_SERVICE_PORT}
+      - AUTH2_SERVICE_DEBUG_PORT=${AUTH2_SERVICE_DEBUG_PORT}
       - LOG_FOLDER=${LOG_FOLDER}
       - LOGGING_LEVEL_ROOT=${LOGGING_LEVEL_ROOT}
       #- SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
@@ -53,6 +56,7 @@ services:
       - postgres
     ports:
       - ${AUTH2_SERVICE_PORT}:${AUTH2_SERVICE_PORT}
+      - ${AUTH2_SERVICE_DEBUG_PORT}:${AUTH2_SERVICE_DEBUG_PORT}
     container_name: auth2service
     networks:
       - online-store-auth2-network
