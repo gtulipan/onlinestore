@@ -2,6 +2,7 @@ package com.onlineshop.productservice.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,6 +24,13 @@ public class SecurityConfig {
     private static final String ROLES_CLAIM = "roles";
     private static final String EMPTY_STRING = "";
     private static final String ADMIN = "ADMIN";
+    public static final String EMPTY_STRING = "";
+
+    @Value("${security.auth2.host}")
+    private String securityAuth2Host;
+
+    @Value("${security.auth2.port}")
+    private String securityAuth2Port;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -57,7 +65,7 @@ public class SecurityConfig {
      */
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
-        return NimbusReactiveJwtDecoder.withJwkSetUri("http://localhost:8083/oauth2/jwks").build();
+        return NimbusReactiveJwtDecoder.withJwkSetUri(String.join(EMPTY_STRING, "http://", securityAuth2Host, ":", securityAuth2Port, "/oauth2/jwks")).build();
     }
 
     /**

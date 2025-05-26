@@ -22,10 +22,13 @@ services:
       args:
         LOG_FOLDER: ${LOG_FOLDER}
         PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+        PRODUCT_SERVICE_DEBUG_PORT: ${PRODUCT_SERVICE_DEBUG_PORT}
     env_file:
       - .env
     environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${PRODUCT_SERVICE_DEBUG_PORT:5005}
       - PRODUCT_SERVICE_PORT=${PRODUCT_SERVICE_PORT}
+      - PRODUCT_SERVICE_DEBUG_PORT=${PRODUCT_SERVICE_DEBUG_PORT}
       - LOG_FOLDER=${LOG_FOLDER}
       #- SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
       - SPRING_DATASOURCE_URL=r2dbc:postgresql://postgres:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}
@@ -33,10 +36,13 @@ services:
       - SPRING_DATASOURCE_USERNAME=${DB_POSTGRESQL_USER}
       - SPRING_DATASOURCE_PASSWORD=${DB_POSTGRESQL_PASSWORD}
       - SPRING_LIQUIBASE_CHANGELOG=classpath:db/changelog/changelog-master.yaml
+      - AUTH2_HOST=${AUTH2_HOST}
+      - AUTH2_PORT=${AUTH2_PORT}
     depends_on:
       - postgres
     ports:
       - ${PRODUCT_SERVICE_PORT}:${PRODUCT_SERVICE_PORT}
+      - ${PRODUCT_SERVICE_DEBUG_PORT}:${PRODUCT_SERVICE_DEBUG_PORT}
     container_name: productservice
     networks:
       - online-store-product-network
