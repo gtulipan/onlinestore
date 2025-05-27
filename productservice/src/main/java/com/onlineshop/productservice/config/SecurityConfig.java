@@ -24,7 +24,6 @@ public class SecurityConfig {
     private static final String ROLES_CLAIM = "roles";
     private static final String EMPTY_STRING = "";
     private static final String ADMIN = "ADMIN";
-    public static final String EMPTY_STRING = "";
 
     @Value("${security.auth2.host}")
     private String securityAuth2Host;
