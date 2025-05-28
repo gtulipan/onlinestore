@@ -1,6 +1,8 @@
 spring:
   application:
     name: locale-bundles
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
 #  config:
 #    import: "classpath:.env[.properties]"
 #    import: "classpath:/application.yml,classpath:/application-test.yml,classpath:/.env[.properties]"
@@ -8,6 +10,7 @@ spring:
 
 server:
   port: ${LOCAL_BUNDLES_SERVICE_PORT:8085}
+  shutdown: graceful
 
 security:
   auth2:
