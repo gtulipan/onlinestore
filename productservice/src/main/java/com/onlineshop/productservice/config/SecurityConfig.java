@@ -42,7 +42,10 @@ public class SecurityConfig {
                                 "webjars/**",
                                 "/webjars/swagger-ui/index.html",
                                 "/swagger-ui.html",
-                                "/public/**").permitAll()
+                                "/public/**",
+                                "/actuator/health",
+                                "/actuator/info").permitAll()
+                        .pathMatchers("/actuator/**").hasRole(ADMIN)
                         .pathMatchers(HttpMethod.GET, "/products/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/products/**").hasAnyAuthority(ADMIN)
                         .pathMatchers(HttpMethod.PUT, "/products/**").hasAnyAuthority(ADMIN)
