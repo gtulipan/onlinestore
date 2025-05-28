@@ -39,7 +39,7 @@ services:
     env_file:
       - .env
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${AUTH2_SERVICE_DEBUG_PORT:5007}
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${AUTH2_SERVICE_DEBUG_PORT:-5007}
       - AUTH2_SERVICE_PORT=${AUTH2_SERVICE_PORT}
       - AUTH2_SERVICE_DEBUG_PORT=${AUTH2_SERVICE_DEBUG_PORT}
       - LOG_FOLDER=${LOG_FOLDER}
