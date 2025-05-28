@@ -1,5 +1,6 @@
 package com.onlinestore.auth2.config;
 
+import com.onlinestore.auth2.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +51,10 @@ public class DefaultSecurityConfig {
                                         "/webjars/swagger-ui/index.html",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html",
-                                        "/swagger-ui/index.html"
+                                        "/swagger-ui/index.html",
+                                        "/actuator/**",
+                                        "/actuator/health",
+                                        "/actuator/info"
                                 )
                         ))
                 .authorizeExchange(exchange -> exchange
@@ -65,8 +69,11 @@ public class DefaultSecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/index.html",
-                                "/auth/csrf-token")
+                                "/auth/csrf-token",
+                                "/actuator/health",
+                                "/actuator/info")
                         .permitAll()
+                        .pathMatchers("/actuator/**").hasRole(Constants.ROLE_ADMIN)
                         .anyExchange().authenticated()
                 )
                 // .formLogin(Customizer.withDefaults()) // Disable the default formLogin to avoid /login endpoint.

@@ -56,6 +56,16 @@ springdoc:
 #A http://localhost:8080/actuator/health vagy info linken a get k�r�s megmutatja az aktu�lis �llapotot.
 #Lehet?s�g van arra is, hogy manu�lisan id�tsunk egy properties friss�t�st. Ehhez a http://localhost:8080/actuator/refresh linkre kell post k�r�st k�ldeni (post/get oldalon �ll�that�), ha a konfig kliens ezen a porton fut
 #management.endpoints.web.exposure.include: "*"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: ${AUTH2_SERVICE_PORT:8083}
 
 logging:
   level:
