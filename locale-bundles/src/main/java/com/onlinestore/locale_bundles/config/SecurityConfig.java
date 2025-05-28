@@ -12,6 +12,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
+    private static final String ROLE_ADMIN = "ADMIN";
     private final CorsConfig corsConfig;
 
     @Bean
@@ -20,6 +21,8 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
                 .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers("/actuator/health", "/actuator/info").permitAll()
+                        .pathMatchers("/actuator/**").hasRole(ROLE_ADMIN)
                         .anyExchange().permitAll()
                 );
         return http.build();
