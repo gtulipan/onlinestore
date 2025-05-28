@@ -4,6 +4,8 @@ spring:
   webflux:
     problemdetails:
       enabled: true
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   datasource:
     url: jdbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT_EXTERNAL:5433}/${DB_POSTGRESQL_DATABASE_NAME}?currentSchema=${DB_POSTGRESQL_SCHEMA_NAME}
     username: ${DB_POSTGRESQL_USER}
@@ -40,6 +42,7 @@ r2dcb:
 
 server:
   port: ${AUTH2_SERVICE_PORT:8083}
+  shutdown: graceful
 
 springdoc:
   api-docs:
