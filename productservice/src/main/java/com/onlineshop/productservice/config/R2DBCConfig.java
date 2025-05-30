@@ -1,7 +1,6 @@
 package com.onlineshop.productservice.config;
 
-import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
-import io.r2dbc.postgresql.PostgresqlConnectionFactory;
+import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,35 +16,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class R2DBCConfig {
 
-    @Value("${spring.r2dbc.host}")
-    private String host;
-
-    @Value("${spring.r2dbc.port}")
-    private int port;
-
-    @Value("${spring.r2dbc.database}")
-    private String database;
-
-    @Value("${spring.r2dbc.username}")
-    private String username;
-
-    @Value("${spring.r2dbc.password}")
-    private String password;
-
-    @Value("${spring.r2dbc.schema}")
-    private String schema;
+    @Value("${spring.r2dbc.url}")
+    private String url;
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        return new PostgresqlConnectionFactory(
-                PostgresqlConnectionConfiguration.builder()
-                        .host(host)
-                        .port(port)
-                        .database(database)
-                        .username(username)
-                        .password(password)
-                        .schema(schema)
-                        .build());
+        return ConnectionFactories.get(url);
     }
 
     @Bean

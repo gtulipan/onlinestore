@@ -16,6 +16,11 @@ spring:
     url: r2dcb:pool:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}?schema=${DB_POSTGRESQL_SCHEMA_NAME}
     username: ${DB_POSTGRESQL_USER}
     password: ${DB_POSTGRESQL_PASSWORD}
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30s
+      validation-query: SELECT 1
   liquibase:
     change-log: classpath:db/changelog/changelog-master.yaml
     contexts: test
@@ -23,13 +28,6 @@ spring:
     parameters:
       schemaName: ${DB_POSTGRESQL_SCHEMA_NAME}
     default-schema: ${DB_POSTGRESQL_SCHEMA_NAME}
-
-r2dcb:
-  pool:
-    initial-size: 5
-    max-size: 20
-    max-idle-time: 30s
-    validation-query: SELECT 1
 
 server:
   port: ${PRODUCT_SERVICE_PORT:8080}
