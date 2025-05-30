@@ -12,3 +12,5 @@
 - DB_POSTGRESQL_PASSWORD: the PostgreSQL database user password, sa. `PI3p14159265`
 - DB_POSTGRESQL_DATABASE_NAME: the PostgreSQL database name `products`
 - DB_POSTGRESQL_DATABASE_SCHEMA: the PostgreSQL database schema name `public`
+- AUTH2_HOST: `localhost` 
+- AUTH2_PORT: `8083`

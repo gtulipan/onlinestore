@@ -1,19 +1,19 @@
 spring:
   application:
     name: productservice
-#  config:
-#    import: file:./.env[.properties]
+  config:
+    import: file:./.env[.properties]
   webflux:
     problemdetails:
       enabled: true
   lifecycle:
     timeout-per-shutdown-phase: 30s
   datasource:
-    url: jdbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT_EXTERNAL:5430}/${DB_POSTGRESQL_DATABASE_NAME}?currentSchema=${DB_POSTGRESQL_SCHEMA_NAME}
+    url: jdbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT_EXTERNAL:5430}/${DB_POSTGRESQL_DATABASE_NAME}?currentSchema=${DB_POSTGRESQL_DATABASE_SCHEMA}
     username: ${DB_POSTGRESQL_USER}
     password: ${DB_POSTGRESQL_PASSWORD}
-  r2dcb:
-    url: r2dcb:pool:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}?schema=${DB_POSTGRESQL_SCHEMA_NAME}
+  r2dbc:
+    url: r2dbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}?schema=${DB_POSTGRESQL_DATABASE_SCHEMA}
     username: ${DB_POSTGRESQL_USER}
     password: ${DB_POSTGRESQL_PASSWORD}
     pool:
