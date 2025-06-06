@@ -1,6 +1,8 @@
 spring:
   application:
     name: auth2
+  config:
+    import: file:./.env[.properties]
   webflux:
     problemdetails:
       enabled: true
@@ -10,10 +12,15 @@ spring:
     url: jdbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT_EXTERNAL:5433}/${DB_POSTGRESQL_DATABASE_NAME}?currentSchema=${DB_POSTGRESQL_SCHEMA_NAME}
     username: ${DB_POSTGRESQL_USER}
     password: ${DB_POSTGRESQL_PASSWORD}
-  r2dcb:
-    url: r2dcb:pool:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}?schema=${DB_POSTGRESQL_SCHEMA_NAME}
+  r2dbc:
+    url: r2dbc:postgresql://${DB_POSTGRESQL_HOST}:${DB_POSTGRESQL_PORT}/${DB_POSTGRESQL_DATABASE_NAME}?schema=${DB_POSTGRESQL_SCHEMA_NAME}
     username: ${DB_POSTGRESQL_USER}
     password: ${DB_POSTGRESQL_PASSWORD}
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30s
+      validation-query: SELECT 1
   liquibase:
     change-log: classpath:db/changelog/changelog-master.yaml
     contexts: test
@@ -32,13 +39,6 @@ spring:
 #      resourceserver:
 #        jwt:
 #          issuer-uri: https://my-auth-server.com
-
-r2dcb:
-  pool:
-    initial-size: 5
-    max-size: 20
-    max-idle-time: 30s
-    validation-query: SELECT 1
 
 server:
   port: ${AUTH2_SERVICE_PORT:8083}
